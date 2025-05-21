@@ -157,36 +157,45 @@
     <div>
       <h2>วินเลข</h2>
       <form method="POST">
-        <input type="text" name="win_input" placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" required>
+        <input type="text" name="win_input" placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" required autocomplete="off">
         <button type="submit">วินเลข</button>
       </form>
 
       {% if win_data %}
         <p><strong>เลขที่ป้อน:</strong> {{ win_input }}</p>
 
-        <div class="copy-section">
-  <strong class="heading-nodup">วิน 2 ตัวไม่รวมเบิ้ล</strong>
-  <button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button>
+        <div class="win-box">
+  <div class="copy-section">
+    <strong class="heading-nodup">วิน 2 ตัวไม่รวมเบิ้ล</strong>
+    <button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button>
+  </div>
+  <div id="win2nodup">{{ win_data.win2_no_double | join(', ') }}</div>
 </div>
-        <div id="win2nodup">{{ win_data.win2_no_double | join(', ') }}</div>
 
-       <div class="copy-section">
-  <strong class="heading-dup">วิน 2 ตัวรวมเบิ้ล</strong>
-  <button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button>
+       <div class="win-box">
+  <div class="copy-section">
+    <strong class="heading-dup">วิน 2 ตัวรวมเบิ้ล</strong>
+    <button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button>
+  </div>
+  <div id="win2dup">{{ win_data.win2_with_double | join(', ') }}</div>
 </div>
-        <div id="win2dup">{{ win_data.win2_with_double | join(', ') }}</div>
 
-        <div class="copy-section">
-  <strong class="heading-nodup">วิน 3 ตัวไม่รวมเบิ้ล</strong>
-  <button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button>
+        <div class="win-box">
+  <div class="copy-section">
+    <strong class="heading-nodup">วิน 3 ตัวไม่รวมเบิ้ล</strong>
+    <button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button>
+  </div>
+  <div id="win3nodup">{{ win_data.win3_no_double | join(', ') }}</div>
 </div>
-        <div id="win3nodup">{{ win_data.win3_no_double | join(', ') }}</div>
 
-        <div class="copy-section">
-  <strong class="heading-dup">วิน 3 ตัวรวมเบิ้ล</strong>
-  <button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button>
+        <div class="win-box">
+  <div class="copy-section">
+    <strong class="heading-dup">วิน 3 ตัวรวมเบิ้ล</strong>
+    <button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button>
+  </div>
+  <div id="win3dup">{{ win_data.win3_with_double | join(', ') }}</div>
 </div>
-        <div id="win3dup">{{ win_data.win3_with_double | join(', ') }}</div>
+
       {% endif %}
     </div>
 
@@ -194,7 +203,7 @@
     <div>
       <h2>นับเลข</h2>
       <form method="POST">
-        <input type="text" name="numbers" placeholder="ป้อนตัวเลข เช่น 123456 หรือ 12 34" required>
+        <input type="text" name="numbers" placeholder="ป้อนตัวเลข เช่น 123456 หรือ 12 34" required autocomplete="off">
         <button type="submit">แยกเลข</button>
       </form>
 

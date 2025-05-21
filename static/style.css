@@ -62,3 +62,18 @@ body.dark-mode .heading-nodup {
 body.dark-mode .heading-dup {
   color: #e60404;
 }
+.win-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* รองรับโหมดมืด */
+body.dark-mode .win-box {
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
