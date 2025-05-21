@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ArmTyKH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-light: #f0f2f5;
+      --bg-dark: #1e1e2f;
+      --text-light: #ffffff;
+      --text-dark: #111;
+      --primary: #ff9ff3;
+      --primary-hover: #f368e0;
+    }
+
+    body {
+      font-family: 'Kanit', sans-serif;
+      margin: 0;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .dark-mode {
+      background: var(--bg-dark);
+      color: var(--text-light);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      grid-column: span 2;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 300px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+      transform: scale(1.05);
+    }
+
+    .result {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .dark-mode .result {
+      background: #2c2c2c;
+      border: 1px solid #444;
+    }
+
+    .copy-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+
+    .copy-btn {
+      font-size: 14px;
+      padding: 4px 10px;
+      background-color: var(--primary);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      opacity: 0.6;
+    }
+
+    #toggle-btn {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .sticker-float {
+      position: fixed;
+      width: 40px;
+      z-index: 0;
+      pointer-events: none;
+      z-index: -1;
+      body.light .sticker-float {
+    opacity: 1;
+  }
+
+  body.dark .sticker-float {
+    opacity: 0.9;
+  }
+    }
+  </style>
+</head>
+<body>
+  <button id="toggle-btn" onclick="toggleDarkMode()">🌙 โหมดกลางคืน</button>
+
+  <div class="container">
+    <h1>ArmTyKH</h1>
+
+    <!-- ฝั่งวินเลข -->
+    <div>
+      <h2>วินเลข</h2>
+      <form method="POST">
+        <input type="text" name="win_input" placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" required>
+        <button type="submit">วินเลข</button>
+      </form>
+
+      {% if win_data %}
+        <p><strong>เลขที่ป้อน:</strong> {{ win_input }}</p>
+
+        <div class="copy-section">
+          <strong>วิน 2 ตัวไม่รวมเบิ้ล</strong>
+          <button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button>
+        </div>
+        <div id="win2nodup">{{ win_data.win2_no_double | join(', ') }}</div>
+
+        <div class="copy-section">
+          <strong>วิน 2 ตัวรวมเบิ้ล</strong>
+          <button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button>
+        </div>
+        <div id="win2dup">{{ win_data.win2_with_double | join(', ') }}</div>
+
+        <div class="copy-section">
+          <strong>วิน 3 ตัวไม่รวมเบิ้ล</strong>
+          <button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button>
+        </div>
+        <div id="win3nodup">{{ win_data.win3_no_double | join(', ') }}</div>
+
+        <div class="copy-section">
+          <strong>วิน 3 ตัวรวมเบิ้ล</strong>
+          <button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button>
+        </div>
+        <div id="win3dup">{{ win_data.win3_with_double | join(', ') }}</div>
+      {% endif %}
+    </div>
+
+    <!-- ฝั่งนับเลข -->
+    <div>
+      <h2>นับเลข</h2>
+      <form method="POST">
+        <input type="text" name="numbers" placeholder="ป้อนตัวเลข เช่น 123456 หรือ 12 34" required>
+        <button type="submit">แยกเลข</button>
+      </form>
+
+      {% if result %}
+        <div class="result">
+          <strong>เลขที่ป้อน:</strong> {{ original_input }}<br>
+          <strong>เลขที่แยกได้:</strong> {{ result | join(', ') }}<br>
+          <strong style="color: red;">จำนวน:</strong> {{ result|length }} ตัว<br>
+          {% if duplicates %}
+            <strong style="color: red;">เลขที่ซ้ำกัน:</strong> {{ duplicates | join(', ') }}
+          {% else %}
+            <strong style="color: green;">ไม่มีเลขซ้ำ</strong>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <footer>© 2025 ArmTyKH | Powered by Puii</footer>
+
+  <script>
+    function copyToClipboard(elementId, btn) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      const text = element.textContent.trim();
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      btn.innerText = "คัดลอกสำเร็จ";
+      setTimeout(() => { btn.innerText = "คัดลอก"; }, 1500);
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+      const isDark = document.body.classList.contains("dark-mode");
+      localStorage.setItem("darkMode", isDark);
+      loadStickers();
+    }
+
+    window.onload = function () {
+      if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
+      }
+      loadStickers();
+    }
+
+    function loadStickers() {
+      const existing = document.querySelectorAll('.sticker-float');
+      existing.forEach(el => el.remove());
+      const isDark = document.body.classList.contains('dark-mode');
+      const stickerUrls = isDark ? [
+        'https://cdn-icons-png.flaticon.com/128/2959/2959301.png',
+        'https://cdn-icons-png.flaticon.com/128/11892/11892408.png',
+        'https://cdn-icons-png.flaticon.com/128/3251/3251256.png',
+        'https://cdn-icons-png.flaticon.com/128/17921/17921904.png',
+        'https://cdn-icons-png.flaticon.com/128/8731/8731749.png',
+        'https://cdn-icons-png.flaticon.com/128/13664/13664860.png',
+        'https://cdn-icons-png.flaticon.com/128/15404/15404077.png'
+      ] : [
+        'https://cdn-icons-png.flaticon.com/128/1076/1076928.png',
+        'https://cdn-icons-png.flaticon.com/128/10852/10852653.png',
+        'https://cdn-icons-png.flaticon.com/128/181/181867.png',
+        'https://cdn-icons-png.flaticon.com/128/760/760910.png',
+        'https://cdn-icons-png.flaticon.com/128/8060/8060464.png',
+        'https://cdn-icons-png.flaticon.com/128/13138/13138310.png'
+      ];
+
+      for (let i = 0; i < 20; i++) {
+        const img = document.createElement("img");
+        img.src = stickerUrls[Math.floor(Math.random() * stickerUrls.length)];
+        img.className = "sticker-float";
+        img.style.top = Math.random() * 100 + "vh";
+        img.style.left = Math.random() * 100 + "vw";
+        img.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(img);
+      }
+    }
+  </script>
+</body>
+</html>
