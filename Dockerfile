@@ -1,23 +1,23 @@
+# ใช้ base image ที่มี Tesseract และ OpenCV
 FROM python:3.11-slim
 
-# ติดตั้ง Tesseract OCR และ libGL ที่จำเป็น
+# ติดตั้ง dependencies
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
-    libgl1 \
-    libglib2.0-0 \
-    libsm6 \
-    libxrender1 \
-    libxext6 \
+    libgl1-mesa-glx \
     && rm -rf /var/lib/apt/lists/*
 
-# ตั้ง working directory
+# สร้าง working directory
 WORKDIR /app
 
-# คัดลอกไฟล์ทั้งหมด
+# คัดลอกไฟล์ทั้งหมดเข้า container
 COPY . .
 
-# ติดตั้ง dependencies
+# ติดตั้ง Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# สั่งรันแอป
-CMD ["gunicorn", "--bind", "0.0.0.0:10000", "arm:app"]
+# ระบุพอร์ตที่เปิด
+EXPOSE 8000
+
+# รัน Gunicorn โดยใช้พอร์ต 8000
+CMD ["gunicorn", "arm:app", "--bind", "0.0.0.0:8000"]

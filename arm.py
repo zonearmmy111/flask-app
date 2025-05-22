@@ -98,6 +98,3 @@ def ocr_image():
 
     return jsonify({'text': ' '.join(numbers)})
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
