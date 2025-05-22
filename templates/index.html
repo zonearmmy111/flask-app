@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <title>ArmTyKH</title>
   <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
     :root {
       --bg-light: #f0f2f5;
@@ -14,7 +14,6 @@
       --primary: #ff9ff3;
       --primary-hover: #f368e0;
     }
-
     body {
       font-family: 'Kanit', sans-serif;
       margin: 0;
@@ -25,12 +24,10 @@
       min-height: 100vh;
       transition: background 0.3s ease, color 0.3s ease;
     }
-
     .dark-mode {
       background: var(--bg-dark);
       color: var(--text-light);
     }
-
     .container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -39,22 +36,17 @@
       margin: auto;
       padding: 40px 20px;
     }
-
     h1 {
       font-size: 36px;
-      margin-bottom: 20px;
       grid-column: span 2;
       text-align: center;
     }
-
     form {
       display: flex;
       gap: 10px;
       margin-bottom: 20px;
       flex-wrap: wrap;
-      justify-content: center;
     }
-
     input[type="text"] {
       padding: 10px;
       font-size: 16px;
@@ -62,7 +54,6 @@
       border-radius: 8px;
       width: 300px;
     }
-
     button {
       padding: 10px 20px;
       background-color: var(--primary);
@@ -72,54 +63,29 @@
       cursor: pointer;
       transition: 0.2s ease;
     }
-
     button:hover {
       background-color: var(--primary-hover);
-      transform: scale(1.05);
     }
-
-    .result {
+    .win-box {
       background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      width: 100%;
-      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
     }
-
-    .dark-mode .result {
-      background: #2c2c2c;
-      border: 1px solid #444;
-    }
-
-    .copy-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 15px;
-      margin-bottom: 5px;
-    }
-
+    .win-box.red { border-left: 6px solid red; }
+    .win-box.green { border-left: 6px solid green; }
+    .dark-mode .win-box { background: #2c2c2c; }
     .copy-btn {
       font-size: 14px;
       padding: 4px 10px;
+      margin-left: 10px;
       background-color: var(--primary);
       border: none;
       border-radius: 6px;
       color: white;
       cursor: pointer;
     }
-
-    footer {
-      margin-top: auto;
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      opacity: 0.6;
-    }
-
-    #toggle-btn {
+    #toggle-btn { color: black; background-color: white;
       position: fixed;
       top: 10px;
       right: 10px;
@@ -130,160 +96,172 @@
       font-size: 14px;
       cursor: pointer;
     }
-
+    #pasted-image {
+      display: none;
+      max-width: 100%;
+      margin-top: 10px;
+    }
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      opacity: 0.6;
+    }
     .sticker-float {
       position: fixed;
       width: 40px;
-      z-index: 0;
       pointer-events: none;
       z-index: -1;
-      body.light .sticker-float {
-    opacity: 1;
-  }
-
-  body.dark .sticker-float {
-    opacity: 0.9;
-  }
     }
   </style>
 </head>
 <body>
-<button class="toggle-dark" onclick="toggleDarkMode()">โหมดกลางคืน</button>
+<button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
 
-  <div class="container">
-    <h1>ArmTyKH</h1>
+<div class="container">
+  <h1 style="font-size:48px; color:#ff9ff3; text-shadow:2px 2px 6px rgba(0,0,0,0.2);">ArmTyKH</h1>
 
-    <!-- ฝั่งวินเลข -->
-    <div>
-      <h2>วินเลข</h2>
-      <form method="POST">
-        <input type="text" name="win_input" placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" required autocomplete="off">
-        <button type="submit">วินเลข</button>
-      </form>
+  <!-- วินเลข -->
+  <div>
+    <h2 style="color:#fff; background:#ff6b81; padding:10px 15px; border-radius:10px;">วินเลข</h2>
+    <form method="POST">
+      <input type="hidden" name="form_type" value="win">
+      <input type="hidden" name="prev_original_input" value="{{ original_input }}">
+      <input type="text" name="win_input" placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" required autocomplete="off" value="{{ win_input }}">
+      <button type="submit">วินเลข</button>
+    </form>
 
-      {% if win_data %}
-        <p><strong>เลขที่ป้อน:</strong> {{ win_input }}</p>
-
-        <div class="win-box">
-  <div class="copy-section">
-    <strong class="heading-nodup">วิน 2 ตัวไม่รวมเบิ้ล</strong>
-    <button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button>
+    {% if win_input %}
+      <div class="win-box red"><strong>วิน 2 ตัวไม่รวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button><div id="win2nodup">{{ win_data.win2_no_double | join(', ') }}</span></div></div>
+      <div class="win-box green"><strong>วิน 2 ตัวรวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button><div id="win2dup">{{ win_data.win2_with_double | join(', ') }}</div></div>
+      <div class="win-box red"><strong>วิน 3 ตัวไม่รวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button><div id="win3nodup">{{ win_data.win3_no_double | join(', ') }}</div></div>
+      <div class="win-box green"><strong>วิน 3 ตัวรวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button><div id="win3dup">{{ win_data.win3_with_double | join(', ') }}</div></div>
+    {% endif %}
   </div>
-  <div id="win2nodup">{{ win_data.win2_no_double | join(', ') }}</div>
-</div>
 
-       <div class="win-box">
-  <div class="copy-section">
-    <strong class="heading-dup">วิน 2 ตัวรวมเบิ้ล</strong>
-    <button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button>
-  </div>
-  <div id="win2dup">{{ win_data.win2_with_double | join(', ') }}</div>
-</div>
+  <!-- นับเลข (รวมผล OCR และพิมพ์) -->
+  <div>
+    <h2 style="color:#fff; background:#1dd1a1; padding:10px 15px; border-radius:10px;">นับเลข</h2>
+    <div id="pasted-image-box" style="border: 2px dashed #888; background: #fafafa; padding: 40px; height: 240px;" style="border: 2px dashed #ccc; padding: 20px; text-align: center;">
+      <p style="margin: 0;">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
+      <p style="margin: 0; color: #888; font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
 
-        <div class="win-box">
-  <div class="copy-section">
-    <strong class="heading-nodup">วิน 3 ตัวไม่รวมเบิ้ล</strong>
-    <button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button>
-  </div>
-  <div id="win3nodup">{{ win_data.win3_no_double | join(', ') }}</div>
-</div>
-
-        <div class="win-box">
-  <div class="copy-section">
-    <strong class="heading-dup">วิน 3 ตัวรวมเบิ้ล</strong>
-    <button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button>
-  </div>
-  <div id="win3dup">{{ win_data.win3_with_double | join(', ') }}</div>
-</div>
-
-      {% endif %}
+      <img id="pasted-image" />
     </div>
-
-    <!-- ฝั่งนับเลข -->
-    <div>
-      <h2>นับเลข</h2>
-      <form method="POST">
-        <input type="text" name="numbers" placeholder="ป้อนตัวเลข เช่น 123456 หรือ 12 34" required autocomplete="off">
-        <button type="submit">แยกเลข</button>
-      </form>
-
-      {% if result %}
-        <div class="result">
-          <strong>เลขที่ป้อน:</strong> {{ original_input }}<br>
-          <strong>เลขที่แยกได้:</strong> {{ result | join(', ') }}<br>
-          <strong style="color: red;">จำนวน(ไม่วรม):</strong> {{ result|length }} ตัว<br>
-          {% if duplicates %}
-            <strong style="color: red;">เลขที่ซ้ำกัน:</strong> {{ duplicates | join(', ') }}
-          {% else %}
-            <strong style="color: green;">ไม่มีเลขซ้ำ</strong>
-          {% endif %}
-        </div>
-      {% endif %}
-    </div>
+    <form method="POST">
+      <input type="hidden" name="form_type" value="count">
+      <input type="hidden" name="prev_win_input" value="{{ win_input }}">
+      <input type="text" id="numbersInput" name="numbers" placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" required autocomplete="off" value="{{ original_input }}">
+      <button type="submit">นับเลข</button>
+    </form>
+    {% if result %}
+  <div class="result" style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-top: 20px;">
+    <strong>เลขที่ป้อน:</strong> {{ original_input }}<br>
+    <strong>เลขที่แยกได้:</strong> {{ result | join(', ') }}<br>
+    <strong style="color: red;">จำนวน (ไม่รวมเลขซ้ำ):</strong> {{ result|length }} ตัว<br>
+    {% if duplicates %}
+      <strong style="color: red;">เลขที่ซ้ำกัน:</strong> {{ duplicates | join(', ') }}
+    {% else %}
+      <strong style="color: green;">ไม่มีเลขซ้ำ</strong>
+    {% endif %}
   </div>
+{% endif %}
 
-  <footer>© 2025 ArmTyKH | Powered by Puii</footer>
+  </div>
+</div>
 
-  <script>
-    function copyToClipboard(elementId, btn) {
-      const element = document.getElementById(elementId);
-      if (!element) return;
-      const text = element.textContent.trim();
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
-      btn.innerText = "คัดลอกสำเร็จ";
-      setTimeout(() => { btn.innerText = "คัดลอก"; }, 1500);
+
+<div class="note-box" style="background:#fff3cd; border:1px solid #ffeeba; padding:15px; border-radius:8px; margin-top:20px;">
+  <strong>หมายเหตุ:</strong><span style="text-shadow:2px 2px 2px rgb(255, 255, 255);"> ฟังก์ชั่นนับเลข ระบบจะนับเพียงตัวเลข 2 หลักเท่านั้น!!
+</div>
+<div class="note-box" style="background:#fff3cd; border:1px solid #ffeeba; padding:15px; border-radius:8px; margin-top:20px;">
+  <strong>คำแนะนำ:</strong><span style="text-shadow:1px 1px 1px rgb(255, 255, 255);"> การวางภาพควรใช้ภาพที่มีพื้นหลังสีเดียวกัน และตัวเลขไม่ชิดขอบจนเกินไป
+</div>
+<footer>© 2025 ArmTyKH | Powered by Puii</footer>
+
+<script>
+function copyToClipboard(elementId, btn) {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+  const text = element.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerText = "คัดลอกแล้ว";
+    setTimeout(() => { btn.innerText = "คัดลอก"; }, 1500);
+  });
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  localStorage.setItem("darkMode", isDark);
+  loadStickers();
+}
+window.onload = function () {
+  if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark-mode");
+  }
+  loadStickers();
+}
+function loadStickers() {
+  const existing = document.querySelectorAll('.sticker-float');
+  existing.forEach(el => el.remove());
+  const isDark = document.body.classList.contains('dark-mode');
+  const stickerUrls = isDark ? [
+    'https://cdn-icons-png.flaticon.com/128/2959/2959301.png',
+    'https://cdn-icons-png.flaticon.com/128/11892/11892408.png',
+    'https://cdn-icons-png.flaticon.com/128/3251/3251256.png'
+  ] : [
+    'https://cdn-icons-png.flaticon.com/128/1076/1076928.png',
+    'https://cdn-icons-png.flaticon.com/128/10852/10852653.png',
+    'https://cdn-icons-png.flaticon.com/128/181/181867.png'
+  ];
+  for (let i = 0; i < 15; i++) {
+    const img = document.createElement("img");
+    img.src = stickerUrls[Math.floor(Math.random() * stickerUrls.length)];
+    img.className = "sticker-float";
+    img.style.top = Math.random() * 100 + "vh";
+    img.style.left = Math.random() * 100 + "vw";
+    img.style.transform = `rotate(${Math.random() * 360}deg)`;
+    document.body.appendChild(img);
+  }
+}
+document.addEventListener('paste', function (event) {
+  const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+  for (let index in items) {
+    const item = items[index];
+    if (item.kind === 'file') {
+      const blob = item.getAsFile();
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const base64Image = event.target.result;
+        document.getElementById('pasted-image').src = base64Image;
+        document.getElementById('pasted-image').style.display = 'block';
+        fetch('/ocr-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: base64Image })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.text) {
+            document.getElementById("numbersInput").value = data.text;
+            document.forms[1].submit();
+          } else {
+            alert("ไม่สามารถอ่านค่าภาพได้");
+          }
+        })
+        .catch(error => {
+          alert("เกิดข้อผิดพลาดในการส่งภาพ");
+          console.error(error);
+        });
+      };
+      reader.readAsDataURL(blob);
     }
-
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
-      const isDark = document.body.classList.contains("dark-mode");
-      localStorage.setItem("darkMode", isDark);
-      loadStickers();
-    }
-
-    window.onload = function () {
-      if (localStorage.getItem("darkMode") === "true") {
-        document.body.classList.add("dark-mode");
-      }
-      loadStickers();
-    }
-
-    function loadStickers() {
-      const existing = document.querySelectorAll('.sticker-float');
-      existing.forEach(el => el.remove());
-      const isDark = document.body.classList.contains('dark-mode');
-      const stickerUrls = isDark ? [
-        'https://cdn-icons-png.flaticon.com/128/2959/2959301.png',
-        'https://cdn-icons-png.flaticon.com/128/11892/11892408.png',
-        'https://cdn-icons-png.flaticon.com/128/3251/3251256.png',
-        'https://cdn-icons-png.flaticon.com/128/17921/17921904.png',
-        'https://cdn-icons-png.flaticon.com/128/8731/8731749.png',
-        'https://cdn-icons-png.flaticon.com/128/13664/13664860.png',
-        'https://cdn-icons-png.flaticon.com/128/15404/15404077.png'
-      ] : [
-        'https://cdn-icons-png.flaticon.com/128/1076/1076928.png',
-        'https://cdn-icons-png.flaticon.com/128/10852/10852653.png',
-        'https://cdn-icons-png.flaticon.com/128/181/181867.png',
-        'https://cdn-icons-png.flaticon.com/128/760/760910.png',
-        'https://cdn-icons-png.flaticon.com/128/8060/8060464.png',
-        'https://cdn-icons-png.flaticon.com/128/13138/13138310.png'
-      ];
-
-      for (let i = 0; i < 20; i++) {
-        const img = document.createElement("img");
-        img.src = stickerUrls[Math.floor(Math.random() * stickerUrls.length)];
-        img.className = "sticker-float";
-        img.style.top = Math.random() * 100 + "vh";
-        img.style.left = Math.random() * 100 + "vw";
-        img.style.transform = `rotate(${Math.random() * 360}deg)`;
-        document.body.appendChild(img);
-      }
-    }
-  </script>
+  }
+});
+</script>
 </body>
 </html>
+
+<style>.dark-mode .note-box { background: #333; color: white; border-color: #555; }</style>

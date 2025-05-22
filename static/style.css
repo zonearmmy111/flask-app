@@ -77,3 +77,41 @@ body.dark-mode .win-box {
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
 }
 
+.input-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* โหมดมืด */
+body.dark-mode .input-box {
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+}
+.copy-btn {
+  font-size: 18px !important;
+  padding: 9px 18px !important;
+  border-radius: 10px !important;
+  background-color: #f9a8d4;
+  color: white;
+  border: none;
+}
+.image-paste-zone {
+  margin-top: 12px;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+  color: #888;
+  background-color: #fafafa;
+  min-height: 150px;
+  transition: background-color 0.3s;
+}
+.image-paste-zone.dragover {
+  background-color: #e0e0e0;
+}
+
+
