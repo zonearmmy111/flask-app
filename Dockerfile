@@ -1,20 +1,15 @@
-# ใช้ image ที่มี Tesseract ติดตั้งไว้แล้ว
 FROM python:3.11-slim
 
-# ติดตั้ง Tesseract และ lib ที่จำเป็น
-RUN apt-get update && \
-    apt-get install -y tesseract-ocr libglib2.0-0 libsm6 libxrender1 libxext6 && \
-    apt-get clean
+# ติดตั้ง libGL สำหรับ OpenCV
+RUN apt-get update && apt-get install -y \
+    libgl1 \
+    tesseract-ocr \
+ && rm -rf /var/lib/apt/lists/*
 
-# ตั้ง working directory
+# Copy และติดตั้งโค้ด
 WORKDIR /app
+COPY . /app
+RUN pip install --no-cache-dir -r requirements.txt
 
-# คัดลอกโค้ดทั้งหมดเข้าไป
-COPY . .
-
-# ติดตั้ง dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-# ระบุ entrypoint
-CMD ["gunicorn", "--bind", "0.0.0.0:10000", "arm:app"]
+# สั่งรัน
+CMD ["gunicorn", "-b", "0.0.0.0:10000", "arm:app"]
