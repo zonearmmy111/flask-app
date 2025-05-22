@@ -9,8 +9,6 @@ from PIL import Image
 from collections import Counter
 
 app = Flask(__name__)
-#pytesseract.pytesseract.tesseract_cmd = r'C:\Tesseract-OCR\tesseract.exe'
-
 def extract_double_digits(text):
     return re.findall(r'\d{2}', text)
 
