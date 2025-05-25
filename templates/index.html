@@ -76,7 +76,7 @@
     .win-box.green { border-left: 6px solid green; }
     .dark-mode .win-box { background: #2c2c2c; }
     .copy-btn {
-      font-size: 14px;
+      font-size: 16px;
       padding: 4px 10px;
       margin-left: 10px;
       background-color: var(--primary);
@@ -150,7 +150,7 @@
   <button onclick="resetWin()" style="background:#ff4757; color:white; font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
 </h2>
 
-    <form method="POST">
+    <form method="POST" class="inline-form">
       <input type="hidden" name="form_type" value="win">
       <input type="hidden" name="prev_original_input" value="{{ original_input }}">
       <input type="text" name="win_input" placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" required autocomplete="off" value="{{ win_input }}">

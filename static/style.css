@@ -92,7 +92,7 @@ body.dark-mode .input-box {
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
 }
 .copy-btn {
-  font-size: 18px !important;
+  font-size: 18px ;
   padding: 9px 18px !important;
   border-radius: 10px !important;
   background-color: #f9a8d4;
@@ -131,4 +131,10 @@ body.dark-mode .result {
   border-color: #555;
 }
 
+form.inline-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
 
