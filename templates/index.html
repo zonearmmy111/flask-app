@@ -76,7 +76,7 @@
     .win-box.green { border-left: 6px solid green; }
     .dark-mode .win-box { background: #2c2c2c; }
     .copy-btn {
-      font-size: 16px;
+      font-size: 14px;
       padding: 4px 10px;
       margin-left: 10px;
       background-color: var(--primary);
@@ -115,7 +115,6 @@
       z-index: -1;
     }
   </style>
-  <style>.dark-mode .note-box { background: #333; color: white; border-color: #555; }</style>
 </head>
 <body>
 <button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
@@ -150,7 +149,7 @@
   <button onclick="resetWin()" style="background:#ff4757; color:white; font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
 </h2>
 
-    <form method="POST" class="inline-form">
+    <form method="POST">
       <input type="hidden" name="form_type" value="win">
       <input type="hidden" name="prev_original_input" value="{{ original_input }}">
       <input type="text" name="win_input" placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" required autocomplete="off" value="{{ win_input }}">
@@ -166,31 +165,26 @@
   </div>
 
   <!-- นับเลข (รวมผล OCR และพิมพ์) -->
-
-<!-- หัวข้อ -->
-<h2 style="color:#fff; background:#1dd1a1; padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h2 style="color:#fff; background:#1dd1a1; padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
   นับเลข
   <button onclick="resetCount()" style="background:#ff4757; color:white; font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
 </h2>
 
-<!-- กล่องวางภาพ -->
-<div id="pasted-image-box" style="border: 2px dashed #888; background: #fafafa; padding: 40px; height: 240px;">
-  <p style="margin: 0;">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
-  <p style="margin: 0; color: #888; font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
-  <img id="pasted-image" />
-</div>
+      <div id="pasted-image-box" style="border: 2px dashed #888; background: #fafafa; padding: 40px; height: 240px;">
+      <p style="margin: 0;">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
+      <p style="margin: 0; color: #888; font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
 
-<!-- ฟอร์มกรอกเลข -->
-<form method="POST">
-  <input type="hidden" name="form_type" value="count">
-  <input type="hidden" name="prev_win_input" value="{{ win_input }}">
-  <input type="text" id="numbersInput" name="numbers" placeholder="ป้อนเลข เช่น 123456" required autocomplete="off" value="{{ original_input }}">
-  <button type="submit">นับเลข</button>
-</form>
-
-<!-- กล่องผลลัพธ์ -->
-{% if result %}
-  <div class="result">
+      <img id="pasted-image" />
+    </div>
+    <form method="POST">
+      <input type="hidden" name="form_type" value="count">
+      <input type="hidden" name="prev_win_input" value="{{ win_input }}">
+      <input type="text" id="numbersInput" name="numbers" placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" required autocomplete="off" value="{{ original_input }}">
+      <button type="submit">นับเลข</button>
+    </form>
+    {% if result %}
+  <div class="result" style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-top: 20px;">
     <strong>เลขที่ป้อน:</strong> {{ original_input }}<br>
     <strong>เลขที่แยกได้:</strong> {{ result | join(', ') }}<br>
     <strong style="color: red;">จำนวน (ไม่รวมเลขซ้ำ):</strong> {{ result|length }} ตัว<br>
@@ -201,7 +195,6 @@
     {% endif %}
   </div>
 {% endif %}
-
 
   </div>
 </div>
@@ -325,3 +318,4 @@ function resetCount() {
 </body>
 </html>
 
+<style>.dark-mode .note-box { background: #333; color: white; border-color: #555; }</style>

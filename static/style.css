@@ -92,7 +92,7 @@ body.dark-mode .input-box {
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
 }
 .copy-btn {
-  font-size: 18px ;
+  font-size: 18px !important;
   padding: 9px 18px !important;
   border-radius: 10px !important;
   background-color: #f9a8d4;
@@ -113,28 +113,5 @@ body.dark-mode .input-box {
 .image-paste-zone.dragover {
   background-color: #e0e0e0;
 }
-/* แก้ปัญหาโหมดกลางคืนสำหรับกล่องผลลัพธ์ (ฝั่งนับเลข) */
-.result {
-  background-color: #ffffff;
-  color: #111;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  margin-top: 20px;
-  transition: background-color 0.3s, color 0.3s;
-}
 
-body.dark-mode .result {
-  background-color: #1e1e1e;
-  color: #ffffff;
-  border-color: #555;
-}
-
-form.inline-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
 
