@@ -118,9 +118,23 @@
 </head>
 <body>
 <button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
-<div id="loading-indicator" style="display:none; text-align:center; color:#888; margin-top:20px;">
+<div id="loading-indicator" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(255,255,255,0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #333;
+  font-weight: bold;
+">
   🔄 กำลังประมวลผลภาพ...
 </div>
+
 
 
 <div class="container">
