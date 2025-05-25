@@ -123,17 +123,19 @@
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.85);
   z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
-  color: #333;
+  font-size: 26px;
   font-weight: bold;
+  color: #333;
+  pointer-events: none;
 ">
   🔄 กำลังประมวลผลภาพ...
 </div>
+
 
 
 
@@ -169,7 +171,7 @@
   <button onclick="resetCount()" style="background:#ff4757; color:white; font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
 </h2>
 
-    <div id="pasted-image-box" style="border: 2px dashed #888; background: #fafafa; padding: 40px; height: 240px;" style="border: 2px dashed #ccc; padding: 20px; text-align: center;">
+      <div id="pasted-image-box" style="border: 2px dashed #888; background: #fafafa; padding: 40px; height: 240px;">
       <p style="margin: 0;">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
       <p style="margin: 0; color: #888; font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
 
@@ -261,10 +263,16 @@ document.addEventListener('paste', function (event) {
     if (item.kind === 'file') {
       const blob = item.getAsFile();
       const reader = new FileReader();
+
       reader.onload = function (event) {
         const base64Image = event.target.result;
+
+        // ✅ แสดงข้อความทันทีหลังวางภาพ
+        document.getElementById('loading-indicator').style.display = 'flex';
+
         document.getElementById('pasted-image').src = base64Image;
         document.getElementById('pasted-image').style.display = 'block';
+
         fetch('/ocr-image', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -272,17 +280,12 @@ document.addEventListener('paste', function (event) {
         })
         .then(response => response.json())
         .then(data => {
+          // ✅ OCR เสร็จแล้ว → ซ่อนข้อความก่อน submit
+          document.getElementById("loading-indicator").style.display = 'none';
+
           if (data.text) {
             document.getElementById("numbersInput").value = data.text;
-            document.getElementById("loading-indicator").style.display = 'block';
-
-// ใช้ requestAnimationFrame เพื่อให้ DOM วาดก่อน แล้วค่อย submit
-              requestAnimationFrame(() => {
-              setTimeout(() => {
             document.forms[1].submit();
-            }, 150);
-              });
-
           } else {
             alert("ไม่สามารถอ่านค่าภาพได้");
           }
@@ -290,12 +293,15 @@ document.addEventListener('paste', function (event) {
         .catch(error => {
           alert("เกิดข้อผิดพลาดในการส่งภาพ");
           console.error(error);
+          document.getElementById("loading-indicator").style.display = 'none';
         });
       };
+
       reader.readAsDataURL(blob);
     }
   }
 });
+
 function resetWin() {
   document.querySelector('input[name="win_input"]').value = '';
   document.querySelectorAll('.win-box').forEach(box => box.remove());
