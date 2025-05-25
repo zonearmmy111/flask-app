@@ -259,9 +259,14 @@ document.addEventListener('paste', function (event) {
           if (data.text) {
             document.getElementById("numbersInput").value = data.text;
             document.getElementById("loading-indicator").style.display = 'block';
-            setTimeout(() => {
+
+// ใช้ requestAnimationFrame เพื่อให้ DOM วาดก่อน แล้วค่อย submit
+              requestAnimationFrame(() => {
+              setTimeout(() => {
             document.forms[1].submit();
-            }, 200);
+            }, 150);
+              });
+
           } else {
             alert("ไม่สามารถอ่านค่าภาพได้");
           }
