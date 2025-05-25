@@ -224,11 +224,13 @@ function toggleDarkMode() {
   loadStickers();
 }
 window.onload = function () {
+  document.getElementById("loading-indicator").style.display = 'none';
   if (localStorage.getItem("darkMode") === "true") {
     document.body.classList.add("dark-mode");
   }
   loadStickers();
-}
+};
+
 function loadStickers() {
   const existing = document.querySelectorAll('.sticker-float');
   existing.forEach(el => el.remove());
