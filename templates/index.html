@@ -118,13 +118,20 @@
 </head>
 <body>
 <button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
+<div id="loading-indicator" style="display:none; text-align:center; color:#888; margin-top:20px;">
+  🔄 กำลังประมวลผลภาพ...
+</div>
 
 <div class="container">
   <h1 style="font-size:48px; color:#ff9ff3; text-shadow:2px 2px 6px rgba(0,0,0,0.2);">ArmTyKH</h1>
 
   <!-- วินเลข -->
   <div>
-    <h2 style="color:#fff; background:#ff6b81; padding:10px 15px; border-radius:10px;">วินเลข</h2>
+    <h2 style="color:#fff; background:#ff6b81; padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
+  วินเลข
+  <button onclick="resetWin()" style="background:#ff4757; color:white; font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
+</h2>
+
     <form method="POST">
       <input type="hidden" name="form_type" value="win">
       <input type="hidden" name="prev_original_input" value="{{ original_input }}">
@@ -142,7 +149,11 @@
 
   <!-- นับเลข (รวมผล OCR และพิมพ์) -->
   <div>
-    <h2 style="color:#fff; background:#1dd1a1; padding:10px 15px; border-radius:10px;">นับเลข</h2>
+    <h2 style="color:#fff; background:#1dd1a1; padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
+  นับเลข
+  <button onclick="resetCount()" style="background:#ff4757; color:white; font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
+</h2>
+
     <div id="pasted-image-box" style="border: 2px dashed #888; background: #fafafa; padding: 40px; height: 240px;" style="border: 2px dashed #ccc; padding: 20px; text-align: center;">
       <p style="margin: 0;">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
       <p style="margin: 0; color: #888; font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
@@ -246,7 +257,9 @@ document.addEventListener('paste', function (event) {
         .then(data => {
           if (data.text) {
             document.getElementById("numbersInput").value = data.text;
+            document.getElementById("loading-indicator").style.display = 'block';
             document.forms[1].submit();
+
           } else {
             alert("ไม่สามารถอ่านค่าภาพได้");
           }
@@ -260,6 +273,18 @@ document.addEventListener('paste', function (event) {
     }
   }
 });
+function resetWin() {
+  document.querySelector('input[name="win_input"]').value = '';
+  document.querySelectorAll('.win-box').forEach(box => box.remove());
+}
+
+function resetCount() {
+  document.querySelector('input[name="numbers"]').value = '';
+  const resultBox = document.querySelector('.result');
+  if (resultBox) resultBox.remove();
+  document.getElementById('pasted-image').style.display = 'none';
+}
+
 </script>
 </body>
 </html>
