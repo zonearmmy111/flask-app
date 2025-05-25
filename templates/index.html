@@ -184,7 +184,7 @@
       <button type="submit">นับเลข</button>
     </form>
     {% if result %}
-  <div class="result" style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-top: 20px;">
+<div class="result">
     <strong>เลขที่ป้อน:</strong> {{ original_input }}<br>
     <strong>เลขที่แยกได้:</strong> {{ result | join(', ') }}<br>
     <strong style="color: red;">จำนวน (ไม่รวมเลขซ้ำ):</strong> {{ result|length }} ตัว<br>
