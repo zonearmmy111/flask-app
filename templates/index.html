@@ -122,6 +122,7 @@
   🔄 กำลังประมวลผลภาพ...
 </div>
 
+
 <div class="container">
   <h1 style="font-size:48px; color:#ff9ff3; text-shadow:2px 2px 6px rgba(0,0,0,0.2);">ArmTyKH</h1>
 
@@ -258,8 +259,9 @@ document.addEventListener('paste', function (event) {
           if (data.text) {
             document.getElementById("numbersInput").value = data.text;
             document.getElementById("loading-indicator").style.display = 'block';
+            setTimeout(() => {
             document.forms[1].submit();
-
+            }, 200);
           } else {
             alert("ไม่สามารถอ่านค่าภาพได้");
           }
