@@ -16,6 +16,8 @@
       --input-border-dark: #444;
       --result-bg-dark: #2a2a3a;
       --result-border-dark: #444;
+      --border-light: #666;
+      --border-dark: #aaa;
     }
     body {
       font-family: 'Kanit', sans-serif;
@@ -157,21 +159,21 @@
       text-transform: uppercase !important;
     }
     .paste-box {
-      border: 2px dashed var(--border-light);
-      background: var(--input-bg-light);
+      border: 3px dashed var(--border-light);
+      background: transparent;
       padding: 40px;
       height: 240px;
       border-radius: 10px;
-      box-shadow: 0 2px 8px var(--shadow-light);
+      transition: all 0.3s ease;
     }
     .dark-mode .paste-box {
       border-color: var(--border-dark);
-      background: var(--input-bg-dark);
-      box-shadow: 0 2px 8px var(--shadow-dark);
+      background: transparent;
     }
     .paste-text {
       margin: 0;
       color: var(--text-dark);
+      font-weight: 500;
     }
     .dark-mode .paste-text {
       color: var(--text-light);
@@ -180,6 +182,7 @@
       margin: 0;
       color: var(--text-dark);
       font-size: 14px;
+      opacity: 0.8;
     }
     .dark-mode .paste-text-small {
       color: var(--text-light);
