@@ -77,14 +77,13 @@
       align-items: center;
     }
     .input-group {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
+      background: transparent;
+      padding: 0;
       margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: none;
     }
     .dark-mode .input-group {
-      background: var(--input-bg-dark);
+      background: transparent;
     }
     input[type="text"] {
       width: 100%;
@@ -92,19 +91,19 @@
       font-size: 18px;
       border: 2px solid #ddd;
       border-radius: 10px;
-      background-color: white;
+      background-color: transparent;
       color: var(--text-dark);
       transition: all 0.3s ease;
     }
     .dark-mode input[type="text"] {
-      background-color: var(--input-bg-dark);
+      background-color: transparent;
       border-color: var(--input-border-dark);
       color: var(--text-light);
     }
     input[type="text"]:focus {
       border-color: var(--primary);
       outline: none;
-      box-shadow: 0 0 0 3px rgba(255,159,243,0.3);
+      box-shadow: none;
     }
     .win-box {
       background: white;
