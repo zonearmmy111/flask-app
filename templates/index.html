@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -13,6 +12,10 @@
       --text-dark: #111;
       --primary: #ff9ff3;
       --primary-hover: #f368e0;
+      --input-bg-dark: #2c2c2c;
+      --input-border-dark: #444;
+      --result-bg-dark: #2a2a3a;
+      --result-border-dark: #444;
     }
     body {
       font-family: 'Kanit', sans-serif;
@@ -53,6 +56,13 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       width: 300px;
+      background-color: white;
+      color: var(--text-dark);
+    }
+    .dark-mode input[type="text"] {
+      background-color: var(--input-bg-dark);
+      border-color: var(--input-border-dark);
+      color: var(--text-light);
     }
     button {
       padding: 10px 20px;
@@ -113,6 +123,28 @@
       width: 40px;
       pointer-events: none;
       z-index: -1;
+    }
+    .dark-mode #pasted-image-box {
+      background: var(--input-bg-dark);
+      border-color: var(--input-border-dark);
+      color: var(--text-light);
+    }
+    .dark-mode .result {
+      background: var(--result-bg-dark);
+      border-color: var(--result-border-dark);
+      color: var(--text-light);
+    }
+    .dark-mode #loading-indicator {
+      background: rgba(30, 30, 47, 0.85);
+      color: var(--text-light);
+    }
+    .dark-mode .note-box {
+      background: #2a2a3a;
+      border-color: #444;
+      color: var(--text-light);
+    }
+    .dark-mode .note-box span {
+      text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
@@ -317,5 +349,3 @@ function resetCount() {
 </script>
 </body>
 </html>
-
-<style>.dark-mode .note-box { background: #333; color: white; border-color: #555; }</style>
