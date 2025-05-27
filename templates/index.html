@@ -34,11 +34,22 @@
       color: var(--text-light);
     }
     .container {
-      max-width: 1200px;
+      max-width: 100%;
       margin: auto;
       padding: 40px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .column {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
     h1 {
+      width: 100%;
       font-size: 48px;
       text-align: center;
       color: var(--primary);
@@ -49,8 +60,8 @@
       background: white;
       padding: 30px;
       border-radius: 15px;
-      margin-bottom: 30px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      height: 100%;
     }
     .dark-mode .section {
       background: var(--input-bg-dark);
@@ -155,48 +166,52 @@
 
 <div class="container">
   <h1>ArmTyKH</h1>
+  
+  <div class="column">
+    <!-- วินเลข -->
+    <div class="section">
+      <h2>
+        วินเลข
+        <button onclick="resetWin()" class="reset-btn">RESET</button>
+      </h2>
 
-  <!-- วินเลข -->
-  <div class="section">
-    <h2>
-      วินเลข
-      <button onclick="resetWin()" class="reset-btn">RESET</button>
-    </h2>
+      <div class="input-group">
+        <input type="text" 
+               id="win_input" 
+               name="win_input" 
+               placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" 
+               autocomplete="off" 
+               oninput="calculateWin(this.value)"
+               value="{{ win_input }}">
+      </div>
 
-    <div class="input-group">
-      <input type="text" 
-             id="win_input" 
-             name="win_input" 
-             placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" 
-             autocomplete="off" 
-             oninput="calculateWin(this.value)"
-             value="{{ win_input }}">
-    </div>
-
-    <div id="win_results">
-      <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+      <div id="win_results">
+        <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+      </div>
     </div>
   </div>
 
-  <!-- นับเลข -->
-  <div class="section">
-    <h2>
-      นับเลข
-      <button onclick="resetCount()" class="reset-btn">RESET</button>
-    </h2>
+  <div class="column">
+    <!-- นับเลข -->
+    <div class="section">
+      <h2>
+        นับเลข
+        <button onclick="resetCount()" class="reset-btn">RESET</button>
+      </h2>
 
-    <div class="input-group">
-      <input type="text" 
-             id="numbersInput" 
-             name="numbers" 
-             placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" 
-             autocomplete="off"
-             oninput="calculateNumbers(this.value)"
-             value="{{ original_input }}">
-    </div>
+      <div class="input-group">
+        <input type="text" 
+               id="numbersInput" 
+               name="numbers" 
+               placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" 
+               autocomplete="off"
+               oninput="calculateNumbers(this.value)"
+               value="{{ original_input }}">
+      </div>
 
-    <div id="count_results">
-      <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+      <div id="count_results">
+        <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+      </div>
     </div>
   </div>
 </div>
