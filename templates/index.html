@@ -172,13 +172,13 @@
 
 
 <div class="container">
-  <h1 style="font-size:48px; color:#ff9ff3; text-shadow:2px 2px 6px rgba(0,0,0,0.2);">ArmTyKH</h1>
+  <h1 style="font-size:48px; color:var(--primary); text-shadow:2px 2px 6px rgba(0,0,0,0.2);">ArmTyKH</h1>
 
   <!-- วินเลข -->
   <div>
-    <h2 style="color:#fff; background:#ff6b81; padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
+    <h2 style="color:var(--text-light); background:var(--primary); padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
   วินเลข
-  <button onclick="resetWin()" style="background:#ff4757; color:white; font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
+  <button onclick="resetWin()" style="background:var(--primary-hover); color:var(--text-light); font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
 </h2>
 
     <form method="POST">
@@ -198,14 +198,14 @@
 
   <!-- นับเลข (รวมผล OCR และพิมพ์) -->
   <div>
-    <h2 style="color:#fff; background:#1dd1a1; padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
+    <h2 style="color:var(--text-light); background:var(--primary); padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
   นับเลข
-  <button onclick="resetCount()" style="background:#ff4757; color:white; font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
+  <button onclick="resetCount()" style="background:var(--primary-hover); color:var(--text-light); font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
 </h2>
 
-      <div id="pasted-image-box" style="border: 2px dashed #888; background: #fafafa; padding: 40px; height: 240px;">
+      <div id="pasted-image-box" style="border: 2px dashed var(--border-light); background: var(--input-bg-light); padding: 40px; height: 240px;">
       <p style="margin: 0;">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
-      <p style="margin: 0; color: #888; font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
+      <p style="margin: 0; color: var(--text-light); font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
 
       <img id="pasted-image" />
     </div>
@@ -232,13 +232,13 @@
 </div>
 
 
-<div class="note-box" style="background:#fff3cd; border:1px solid #ffeeba; padding:15px; border-radius:8px; margin-top:20px;">
-  <strong>หมายเหตุ:</strong><span style="text-shadow:2px 2px 2px rgb(255, 255, 255);"> หากใช้การวางภาพ อาจต้องรอระบบปประมวลผล ประมาณ 5-10 วินาที
+<div class="note-box" style="background:var(--input-bg-light); border:1px solid var(--border-light); padding:15px; border-radius:8px; margin-top:20px;">
+  <strong>หมายเหตุ:</strong><span style="text-shadow:none;"> หากใช้การวางภาพ อาจต้องรอระบบปประมวลผล ประมาณ 5-10 วินาที
 </div>
-<div class="note-box" style="background:#fff3cd; border:1px solid #ffeeba; padding:15px; border-radius:8px; margin-top:20px;">
-  <strong>คำแนะนำ:</strong><span style="text-shadow:1px 1px 1px rgb(255, 255, 255);"> การวางภาพควรใช้ภาพที่มีพื้นหลังสีเดียวกัน และตัวเลขไม่ชิดขอบจนเกินไป
+<div class="note-box" style="background:var(--input-bg-light); border:1px solid var(--border-light); padding:15px; border-radius:8px; margin-top:20px;">
+  <strong>คำแนะนำ:</strong><span style="text-shadow:none;"> การวางภาพควรใช้ภาพที่มีพื้นหลังสีเดียวกัน และตัวเลขไม่ชิดขอบจนเกินไป
 </div>
-<footer>© 2025 ArmTyKH | Powered by Puii</footer>
+<footer style="color: var(--text-dark);">© 2025 ArmTyKH | Powered by Puii</footer>
 
 <script>
 function copyToClipboard(elementId, btn) {
