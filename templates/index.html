@@ -34,196 +34,134 @@
       color: var(--text-light);
     }
     .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
       max-width: 1200px;
       margin: auto;
       padding: 40px 20px;
     }
     h1 {
-      font-size: 36px;
-      grid-column: span 2;
+      font-size: 48px;
       text-align: center;
+      color: var(--primary);
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      margin-bottom: 40px;
     }
-    form {
+    .section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .dark-mode .section {
+      background: var(--input-bg-dark);
+    }
+    h2 {
+      color: var(--text-light);
+      background: var(--primary);
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-top: 0;
       display: flex;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .input-group {
       margin-bottom: 20px;
-      flex-wrap: wrap;
     }
     input[type="text"] {
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      width: 300px;
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
       background-color: white;
       color: var(--text-dark);
+      transition: all 0.3s ease;
     }
     .dark-mode input[type="text"] {
       background-color: var(--input-bg-dark);
       border-color: var(--input-border-dark);
       color: var(--text-light);
     }
-    button {
-      padding: 10px 20px;
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-    button:hover {
-      background-color: var(--primary-hover);
+    input[type="text"]:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255,159,243,0.3);
     }
     .win-box {
       background: white;
-      padding: 15px;
+      padding: 20px;
       border-radius: 10px;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      border-left: 6px solid;
+      transition: all 0.3s ease;
     }
-    .win-box.red { border-left: 6px solid red; }
-    .win-box.green { border-left: 6px solid green; }
-    .dark-mode .win-box { background: #2c2c2c; }
+    .win-box.red { border-color: #ff4757; }
+    .win-box.green { border-color: #2ed573; }
+    .dark-mode .win-box {
+      background: var(--result-bg-dark);
+    }
     .copy-btn {
-      font-size: 14px;
-      padding: 4px 10px;
+      font-size: 16px;
+      padding: 8px 16px;
       margin-left: 10px;
       background-color: var(--primary);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       color: white;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
-    #toggle-btn { color: black; background-color: white;
+    .copy-btn:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    #toggle-btn {
       position: fixed;
-      top: 10px;
-      right: 10px;
-      background: none;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 14px;
+      top: 20px;
+      right: 20px;
+      background: white;
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
       cursor: pointer;
+      color: var(--text-dark);
+      transition: all 0.3s ease;
     }
-    #pasted-image {
-      display: none;
-      max-width: 100%;
-      margin-top: 10px;
-    }
-    footer {
-      margin-top: auto;
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      opacity: 0.6;
-    }
-    .sticker-float {
-      position: fixed;
-      width: 40px;
-      pointer-events: none;
-      z-index: -1;
-    }
-    .dark-mode #pasted-image-box {
+    .dark-mode #toggle-btn {
       background: var(--input-bg-dark);
-      border-color: var(--input-border-dark);
       color: var(--text-light);
-    }
-    .dark-mode .result {
-      background: var(--result-bg-dark);
-      border-color: var(--result-border-dark);
-      color: var(--text-light);
-    }
-    .dark-mode #loading-indicator {
-      background: rgba(30, 30, 47, 0.85);
-      color: var(--text-light);
-    }
-    .dark-mode .note-box {
-      background: #2a2a3a;
-      border-color: #444;
-      color: var(--text-light);
-    }
-    .dark-mode .note-box span {
-      text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
     }
     .reset-btn {
       background-color: #ff4757 !important;
       color: white !important;
-      font-size: 14px !important;
-      padding: 4px 10px !important;
+      font-size: 16px !important;
+      padding: 8px 16px !important;
       border: none !important;
-      border-radius: 6px !important;
+      border-radius: 8px !important;
       font-weight: bold !important;
       text-transform: uppercase !important;
+      transition: all 0.2s ease !important;
     }
-    .paste-box {
-      border: 3px dashed var(--border-light);
-      background: transparent;
-      padding: 40px;
-      height: 240px;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-      margin-bottom: 20px;
-    }
-    .dark-mode .paste-box {
-      border-color: var(--border-dark);
-      background: transparent;
-    }
-    .paste-text {
-      margin: 0;
-      color: var(--text-dark);
-      font-weight: 500;
-    }
-    .dark-mode .paste-text {
-      color: var(--text-light);
-    }
-    .paste-text-small {
-      margin: 0;
-      color: var(--text-dark);
-      font-size: 14px;
-      opacity: 0.8;
-    }
-    .dark-mode .paste-text-small {
-      color: var(--text-light);
-    }
-    #loading-indicator {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(255,255,255,0.85);
-      z-index: 9999;
-      font-size: 26px;
-      font-weight: bold;
-      color: #333;
-      pointer-events: none;
-    }
-    #loading-indicator.show {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .reset-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255,71,87,0.3);
     }
   </style>
 </head>
 <body>
 <button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
-<div id="loading-indicator">
-  🔄 กำลังประมวลผลภาพ...
-</div>
 
 <div class="container">
-  <h1 style="font-size:48px; color:var(--primary); text-shadow:2px 2px 6px rgba(0,0,0,0.2);">ArmTyKH</h1>
+  <h1>ArmTyKH</h1>
 
   <!-- วินเลข -->
-  <div>
-    <h2 style="color:var(--text-light); background:var(--primary); padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
-  วินเลข
-  <button onclick="resetWin()" class="reset-btn">RESET</button>
-</h2>
+  <div class="section">
+    <h2>
+      วินเลข
+      <button onclick="resetWin()" class="reset-btn">RESET</button>
+    </h2>
 
     <div class="input-group">
       <input type="text" 
@@ -240,287 +178,209 @@
     </div>
   </div>
 
-  <!-- นับเลข (รวมผล OCR และพิมพ์) -->
-  <div>
-    <h2 style="color:var(--text-light); background:var(--primary); padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
-        นับเลข
-        <button onclick="resetCount()" class="reset-btn">RESET</button>
-      </h2>
+  <!-- นับเลข -->
+  <div class="section">
+    <h2>
+      นับเลข
+      <button onclick="resetCount()" class="reset-btn">RESET</button>
+    </h2>
 
-      <div id="pasted-image-box" class="paste-box">
-        <p class="paste-text">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
-        <p class="paste-text-small">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
-        <img id="pasted-image" style="max-width: 100%; margin-top: 20px; border-radius: 8px;" />
-      </div>
-
-      <div class="input-group">
-        <input type="text" 
-               id="numbersInput" 
-               name="numbers" 
-               placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" 
-               autocomplete="off"
-               oninput="calculateNumbers(this.value)"
-               value="{{ original_input }}">
-      </div>
-
-      <div id="count_results">
-        <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
-      </div>
+    <div class="input-group">
+      <input type="text" 
+             id="numbersInput" 
+             name="numbers" 
+             placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" 
+             autocomplete="off"
+             oninput="calculateNumbers(this.value)"
+             value="{{ original_input }}">
     </div>
 
+    <div id="count_results">
+      <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+    </div>
   </div>
 </div>
 
-
-<div class="note-box" style="background:var(--input-bg-light); border:1px solid var(--border-light); padding:15px; border-radius:8px; margin-top:20px;">
-  <strong>หมายเหตุ:</strong><span style="text-shadow:none;"> หากใช้การวางภาพ อาจต้องรอระบบปประมวลผล ประมาณ 5-10 วินาที
-</div>
-<div class="note-box" style="background:var(--input-bg-light); border:1px solid var(--border-light); padding:15px; border-radius:8px; margin-top:20px;">
-  <strong>คำแนะนำ:</strong><span style="text-shadow:none;"> การวางภาพควรใช้ภาพที่มีพื้นหลังสีเดียวกัน และตัวเลขไม่ชิดขอบจนเกินไป
-</div>
-<footer style="color: var(--text-dark);">© 2025 ArmTyKH | Powered by Puii</footer>
-
 <script>
-function copyToClipboard(elementId, btn) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  const text = element.textContent.trim();
-  navigator.clipboard.writeText(text).then(() => {
-    btn.innerText = "คัดลอกแล้ว";
-    setTimeout(() => { btn.innerText = "คัดลอก"; }, 1500);
-  });
-}
-
+// Dark mode toggle
 function toggleDarkMode() {
-  document.body.classList.toggle("dark-mode");
-  const isDark = document.body.classList.contains("dark-mode");
-  localStorage.setItem("darkMode", isDark);
-  loadStickers();
+  document.body.classList.toggle('dark-mode');
+  updateToggleButton();
+  localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
 }
-window.onload = function() {
-    // ตรวจสอบว่ามีข้อมูลเก่าใน localStorage หรือไม่
-    const savedWinInput = localStorage.getItem('winInput');
-    if (savedWinInput) {
-        document.getElementById('win_input').value = savedWinInput;
-        calculateWin(savedWinInput);
-    }
-    
-    // โหลดโหมดมืด (คงไว้ถ้ามีโค้ดเดิม)
-    if (localStorage.getItem("darkMode") === "true") {
-        document.body.classList.add("dark-mode");
-    }
-    loadStickers();
-};
 
-function loadStickers() {
-  const existing = document.querySelectorAll('.sticker-float');
-  existing.forEach(el => el.remove());
-  const isDark = document.body.classList.contains('dark-mode');
-  const stickerUrls = isDark ? [
-    'https://cdn-icons-png.flaticon.com/128/2959/2959301.png',
-    'https://cdn-icons-png.flaticon.com/128/11892/11892408.png',
-    'https://cdn-icons-png.flaticon.com/128/3251/3251256.png'
-  ] : [
-    'https://cdn-icons-png.flaticon.com/128/1076/1076928.png',
-    'https://cdn-icons-png.flaticon.com/128/10852/10852653.png',
-    'https://cdn-icons-png.flaticon.com/128/181/181867.png'
-  ];
-  for (let i = 0; i < 15; i++) {
-    const img = document.createElement("img");
-    img.src = stickerUrls[Math.floor(Math.random() * stickerUrls.length)];
-    img.className = "sticker-float";
-    img.style.top = Math.random() * 100 + "vh";
-    img.style.left = Math.random() * 100 + "vw";
-    img.style.transform = `rotate(${Math.random() * 360}deg)`;
-    document.body.appendChild(img);
-  }
+function updateToggleButton() {
+  const btn = document.getElementById('toggle-btn');
+  btn.textContent = document.body.classList.contains('dark-mode') ? 'โหมดกลางวัน' : 'โหมดกลางคืน';
 }
-document.addEventListener('paste', function (event) {
-  const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-  for (let index in items) {
-    const item = items[index];
-    if (item.kind === 'file') {
-      const blob = item.getAsFile();
-      const reader = new FileReader();
 
-      reader.onload = function (event) {
-        const base64Image = event.target.result;
-
-        // แสดง loading indicator
-        document.getElementById('loading-indicator').classList.add('show');
-
-        document.getElementById('pasted-image').src = base64Image;
-        document.getElementById('pasted-image').style.display = 'block';
-
-        fetch('/ocr-image', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: base64Image })
-        })
-        .then(response => response.json())
-        .then(data => {
-          // ซ่อน loading indicator
-          document.getElementById('loading-indicator').classList.remove('show');
-
-          if (data.error) {
-            // แสดงข้อความ error ที่ได้จาก server
-            alert(`เกิดข้อผิดพลาด: ${data.error}`);
-            return;
-          }
-
-          if (data.warning) {
-            // แสดงข้อความเตือน
-            alert(`คำเตือน: ${data.warning}`);
-            return;
-          }
-
-          if (data.text) {
-            document.getElementById("numbersInput").value = data.text;
-            // ส่งฟอร์มโดยตรง
-            document.getElementById("numbersInput").closest('form').submit();
-          } else {
-            alert("ไม่พบตัวเลขในภาพ กรุณาลองภาพอื่น หรือปรับภาพให้ชัดขึ้น");
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          document.getElementById('loading-indicator').classList.remove('show');
-          alert("เกิดข้อผิดพลาดในการส่งภาพ: " + error.message);
-        });
-      };
-
-      reader.readAsDataURL(blob);
-    }
+// Load dark mode preference
+document.addEventListener('DOMContentLoaded', () => {
+  const isDark = localStorage.getItem('darkMode') === 'true';
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+    updateToggleButton();
   }
 });
 
+// Copy to clipboard function
+function copyToClipboard(elementId, button) {
+  const element = document.getElementById(elementId);
+  const text = element.textContent;
+  
+  navigator.clipboard.writeText(text).then(() => {
+    const originalText = button.textContent;
+    button.textContent = 'คัดลอกแล้ว!';
+    setTimeout(() => {
+      button.textContent = originalText;
+    }, 2000);
+  });
+}
+
+// Calculate win combinations
 function calculateWin(input) {
-    // บันทึกค่าลงใน localStorage
-    localStorage.setItem('winInput', input);
-    
-    // ลบตัวอักษรที่ไม่ใช่ตัวเลข
-    const digits = input.replace(/[^0-9]/g, '');
-    
-    if (digits.length < 2) {
-        document.getElementById('win_results').innerHTML = '';
-        return;
-    }
+  // บันทึกค่าลงใน localStorage
+  localStorage.setItem('winInput', input);
+  
+  // ลบตัวอักษรที่ไม่ใช่ตัวเลข
+  const digits = input.replace(/[^0-9]/g, '');
+  
+  if (digits.length < 2) {
+    document.getElementById('win_results').innerHTML = '';
+    return;
+  }
 
-    // สร้างฟังก์ชันสำหรับหาเลขไม่ซ้ำ
-    function getUniqueDigits(digits) {
-        return [...new Set(digits.split(''))];
-    }
+  // สร้างฟังก์ชันสำหรับหาเลขไม่ซ้ำ
+  function getUniqueDigits(digits) {
+    return [...new Set(digits.split(''))];
+  }
 
-    // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 2 ตัว
-    function getCombinations2(arr, allowDuplicates = false) {
-        const results = [];
-        for (let i = 0; i < arr.length; i++) {
-            for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
-                results.push(arr[i] + arr[j]);
-            }
+  // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 2 ตัว
+  function getCombinations2(arr, allowDuplicates = false) {
+    const results = [];
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
+        results.push(arr[i] + arr[j]);
+      }
+    }
+    return results;
+  }
+
+  // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 3 ตัว
+  function getCombinations3(arr, allowDuplicates = false) {
+    const results = [];
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
+        for (let k = (allowDuplicates ? j : j + 1); k < arr.length; k++) {
+          results.push(arr[i] + arr[j] + arr[k]);
         }
-        return results;
+      }
     }
+    return results;
+  }
 
-    // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 3 ตัว
-    function getCombinations3(arr, allowDuplicates = false) {
-        const results = [];
-        for (let i = 0; i < arr.length; i++) {
-            for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
-                for (let k = (allowDuplicates ? j : j + 1); k < arr.length; k++) {
-                    results.push(arr[i] + arr[j] + arr[k]);
-                }
-            }
-        }
-        return results;
-    }
+  const uniqueDigits = getUniqueDigits(digits);
+  
+  // คำนวณผลลัพธ์
+  const win2_no_double = getCombinations2(uniqueDigits);
+  const win2_with_double = getCombinations2(uniqueDigits, true);
+  const win3_no_double = getCombinations3(uniqueDigits);
+  const win3_with_double = getCombinations3(uniqueDigits, true);
 
-    const uniqueDigits = getUniqueDigits(digits);
-    
-    // คำนวณผลลัพธ์
-    const win2_no_double = getCombinations2(uniqueDigits);
-    const win2_with_double = getCombinations2(uniqueDigits, true);
-    const win3_no_double = getCombinations3(uniqueDigits);
-    const win3_with_double = getCombinations3(uniqueDigits, true);
+  // สร้าง HTML สำหรับแสดงผล
+  let resultsHTML = `
+    <div class="win-box red">
+      <strong>วิน 2 ตัวไม่รวมเบิ้ล</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button>
+      <div id="win2nodup">${win2_no_double.join(', ')}</div>
+    </div>
+    <div class="win-box green">
+      <strong>วิน 2 ตัวรวมเบิ้ล</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button>
+      <div id="win2dup">${win2_with_double.join(', ')}</div>
+    </div>
+    <div class="win-box red">
+      <strong>วิน 3 ตัวไม่รวมเบิ้ล</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button>
+      <div id="win3nodup">${win3_no_double.join(', ')}</div>
+    </div>
+    <div class="win-box green">
+      <strong>วิน 3 ตัวรวมเบิ้ล</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button>
+      <div id="win3dup">${win3_with_double.join(', ')}</div>
+    </div>
+  `;
 
-    // สร้าง HTML สำหรับแสดงผล
-    let resultsHTML = `
-        <div class="win-box red"><strong>วิน 2 ตัวไม่รวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button><div id="win2nodup">${win2_no_double.join(', ')}</div></div>
-        <div class="win-box green"><strong>วิน 2 ตัวรวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button><div id="win2dup">${win2_with_double.join(', ')}</div></div>
-        <div class="win-box red"><strong>วิน 3 ตัวไม่รวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button><div id="win3nodup">${win3_no_double.join(', ')}</div></div>
-        <div class="win-box green"><strong>วิน 3 ตัวรวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button><div id="win3dup">${win3_with_double.join(', ')}</div></div>
-    `;
-
-    document.getElementById('win_results').innerHTML = resultsHTML;
+  document.getElementById('win_results').innerHTML = resultsHTML;
 }
 
 function resetWin() {
-    document.getElementById('win_input').value = '';
-    document.getElementById('win_results').innerHTML = '';
-    // ลบข้อมูลใน localStorage เมื่อกด RESET
-    localStorage.removeItem('winInput');
+  document.getElementById('win_input').value = '';
+  document.getElementById('win_results').innerHTML = '';
+  localStorage.removeItem('winInput');
 }
 
 function calculateNumbers(input) {
-    // แยกเฉพาะเลข 2 หลัก
-    const numbers = input.match(/\d{2}/g) || [];
-    
-    // หาเลขที่ซ้ำกัน
-    const numberCounts = {};
-    numbers.forEach(num => {
-        numberCounts[num] = (numberCounts[num] || 0) + 1;
-    });
-    
-    const uniqueNumbers = [...new Set(numbers)];
-    const duplicates = Object.entries(numberCounts)
-        .filter(([_, count]) => count > 1)
-        .map(([num, _]) => num);
+  // แยกเฉพาะเลข 2 หลัก
+  const numbers = input.match(/\d{2}/g) || [];
+  
+  // หาเลขที่ซ้ำกัน
+  const numberCounts = {};
+  numbers.forEach(num => {
+    numberCounts[num] = (numberCounts[num] || 0) + 1;
+  });
+  
+  const uniqueNumbers = [...new Set(numbers)];
+  const duplicates = Object.entries(numberCounts)
+    .filter(([_, count]) => count > 1)
+    .map(([num, _]) => num);
 
-    // สร้าง HTML สำหรับแสดงผล
-    let resultsHTML = '';
-    
-    if (numbers.length > 0) {
-        resultsHTML += `
-            <div class="win-box red">
-                <strong>เลขที่ป้อน</strong>
-                <button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button>
-                <div id="input-numbers">${input}</div>
-            </div>
-            <div class="win-box green">
-                <strong>เลขที่แยกได้</strong>
-                <button class="copy-btn" onclick="copyToClipboard('split-numbers', this)">คัดลอก</button>
-                <div id="split-numbers">${uniqueNumbers.join(', ')}</div>
-            </div>
-            <div class="win-box red">
-                <strong>จำนวน (ไม่รวมเลขซ้ำ)</strong>
-                <div>${uniqueNumbers.length} ตัว</div>
-            </div>`;
+  // สร้าง HTML สำหรับแสดงผล
+  let resultsHTML = '';
+  
+  if (numbers.length > 0) {
+    resultsHTML += `
+      <div class="win-box red">
+        <strong>เลขที่ป้อน</strong>
+        <button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button>
+        <div id="input-numbers">${input}</div>
+      </div>
+      <div class="win-box green">
+        <strong>เลขที่แยกได้</strong>
+        <button class="copy-btn" onclick="copyToClipboard('split-numbers', this)">คัดลอก</button>
+        <div id="split-numbers">${uniqueNumbers.join(', ')}</div>
+      </div>
+      <div class="win-box red">
+        <strong>จำนวน (ไม่รวมเลขซ้ำ)</strong>
+        <div>${uniqueNumbers.length} ตัว</div>
+      </div>`;
 
-        if (duplicates.length > 0) {
-            resultsHTML += `
-                <div class="win-box green">
-                    <strong>เลขที่ซ้ำกัน</strong>
-                    <button class="copy-btn" onclick="copyToClipboard('dup-numbers', this)">คัดลอก</button>
-                    <div id="dup-numbers">${duplicates.join(', ')}</div>
-                </div>`;
-        } else {
-            resultsHTML += `
-                <div class="win-box green">
-                    <strong>สถานะ</strong>
-                    <div>ไม่มีเลขซ้ำ</div>
-                </div>`;
-        }
+    if (duplicates.length > 0) {
+      resultsHTML += `
+        <div class="win-box green">
+          <strong>เลขที่ซ้ำกัน</strong>
+          <button class="copy-btn" onclick="copyToClipboard('dup-numbers', this)">คัดลอก</button>
+          <div id="dup-numbers">${duplicates.join(', ')}</div>
+        </div>`;
     }
+  }
 
-    document.getElementById('count_results').innerHTML = resultsHTML;
+  document.getElementById('count_results').innerHTML = resultsHTML;
 }
 
 function resetCount() {
-    document.getElementById('numbersInput').value = '';
-    document.getElementById('count_results').innerHTML = '';
-    document.getElementById('pasted-image').style.display = 'none';
+  document.getElementById('numbersInput').value = '';
+  document.getElementById('count_results').innerHTML = '';
 }
 
+// โหลดค่าวินเลขจาก localStorage เมื่อโหลดหน้า
+document.addEventListener('DOMContentLoaded', () => {
+  const savedWinInput = localStorage.getItem('winInput');
+  if (savedWinInput) {
+    document.getElementById('win_input').value = savedWinInput;
+    calculateWin(savedWinInput);
+  }
+});
 </script>
 </body>
 </html>
