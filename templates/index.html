@@ -146,6 +146,44 @@
     .dark-mode .note-box span {
       text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
     }
+    .reset-btn {
+      background-color: #ff4757 !important;
+      color: white !important;
+      font-size: 14px !important;
+      padding: 4px 10px !important;
+      border: none !important;
+      border-radius: 6px !important;
+      font-weight: bold !important;
+      text-transform: uppercase !important;
+    }
+    .paste-box {
+      border: 2px dashed var(--border-light);
+      background: var(--input-bg-light);
+      padding: 40px;
+      height: 240px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px var(--shadow-light);
+    }
+    .dark-mode .paste-box {
+      border-color: var(--border-dark);
+      background: var(--input-bg-dark);
+      box-shadow: 0 2px 8px var(--shadow-dark);
+    }
+    .paste-text {
+      margin: 0;
+      color: var(--text-dark);
+    }
+    .dark-mode .paste-text {
+      color: var(--text-light);
+    }
+    .paste-text-small {
+      margin: 0;
+      color: var(--text-dark);
+      font-size: 14px;
+    }
+    .dark-mode .paste-text-small {
+      color: var(--text-light);
+    }
   </style>
 </head>
 <body>
@@ -178,7 +216,7 @@
   <div>
     <h2 style="color:var(--text-light); background:var(--primary); padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
   วินเลข
-  <button onclick="resetWin()" style="background:var(--primary-hover); color:var(--text-light); font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
+  <button onclick="resetWin()" class="reset-btn">RESET</button>
 </h2>
 
     <form method="POST">
@@ -200,12 +238,12 @@
   <div>
     <h2 style="color:var(--text-light); background:var(--primary); padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
   นับเลข
-  <button onclick="resetCount()" style="background:var(--primary-hover); color:var(--text-light); font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
+  <button onclick="resetCount()" class="reset-btn">RESET</button>
 </h2>
 
-      <div id="pasted-image-box" style="border: 2px dashed var(--border-light); background: var(--input-bg-light); padding: 40px; height: 240px; border-radius: 10px;">
-      <p style="margin: 0; color: var(--text-dark);">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
-      <p style="margin: 0; color: var(--text-dark); font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
+      <div id="pasted-image-box" class="paste-box">
+      <p class="paste-text">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
+      <p class="paste-text-small">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
 
       <img id="pasted-image" style="max-width: 100%; margin-top: 20px; border-radius: 8px;" />
     </div>
