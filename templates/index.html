@@ -165,6 +165,7 @@
       height: 240px;
       border-radius: 10px;
       transition: all 0.3s ease;
+      margin-bottom: 20px;
     }
     .dark-mode .paste-box {
       border-color: var(--border-dark);
@@ -250,7 +251,7 @@
 
       <img id="pasted-image" style="max-width: 100%; margin-top: 20px; border-radius: 8px;" />
     </div>
-    <form method="POST">
+    <form method="POST" style="margin-top: 20px;">
       <input type="hidden" name="form_type" value="count">
       <input type="hidden" name="prev_win_input" value="{{ win_input }}">
       <input type="text" id="numbersInput" name="numbers" placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" required autocomplete="off" value="{{ original_input }}">
