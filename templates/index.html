@@ -223,19 +223,19 @@
   <button onclick="resetWin()" class="reset-btn">RESET</button>
 </h2>
 
-    <form method="POST">
-      <input type="hidden" name="form_type" value="win">
-      <input type="hidden" name="prev_original_input" value="{{ original_input }}">
-      <input type="text" name="win_input" placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" required autocomplete="off" value="{{ win_input }}">
-      <button type="submit">วินเลข</button>
-    </form>
+    <div class="input-group">
+      <input type="text" 
+             id="win_input" 
+             name="win_input" 
+             placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" 
+             autocomplete="off" 
+             oninput="calculateWin(this.value)"
+             value="{{ win_input }}">
+    </div>
 
-    {% if win_input %}
-      <div class="win-box red"><strong>วิน 2 ตัวไม่รวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button><div id="win2nodup">{{ win_data.win2_no_double | join(', ') }}</span></div></div>
-      <div class="win-box green"><strong>วิน 2 ตัวรวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button><div id="win2dup">{{ win_data.win2_with_double | join(', ') }}</div></div>
-      <div class="win-box red"><strong>วิน 3 ตัวไม่รวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button><div id="win3nodup">{{ win_data.win3_no_double | join(', ') }}</div></div>
-      <div class="win-box green"><strong>วิน 3 ตัวรวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button><div id="win3dup">{{ win_data.win3_with_double | join(', ') }}</div></div>
-    {% endif %}
+    <div id="win_results">
+      <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+    </div>
   </div>
 
   <!-- นับเลข (รวมผล OCR และพิมพ์) -->
@@ -374,9 +374,66 @@ document.addEventListener('paste', function (event) {
   }
 });
 
+function calculateWin(input) {
+    // ลบตัวอักษรที่ไม่ใช่ตัวเลข
+    const digits = input.replace(/[^0-9]/g, '');
+    
+    if (digits.length < 2) {
+        document.getElementById('win_results').innerHTML = '';
+        return;
+    }
+
+    // สร้างฟังก์ชันสำหรับหาเลขไม่ซ้ำ
+    function getUniqueDigits(digits) {
+        return [...new Set(digits.split(''))];
+    }
+
+    // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 2 ตัว
+    function getCombinations2(arr, allowDuplicates = false) {
+        const results = [];
+        for (let i = 0; i < arr.length; i++) {
+            for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
+                results.push(arr[i] + arr[j]);
+            }
+        }
+        return results;
+    }
+
+    // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 3 ตัว
+    function getCombinations3(arr, allowDuplicates = false) {
+        const results = [];
+        for (let i = 0; i < arr.length; i++) {
+            for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
+                for (let k = (allowDuplicates ? j : j + 1); k < arr.length; k++) {
+                    results.push(arr[i] + arr[j] + arr[k]);
+                }
+            }
+        }
+        return results;
+    }
+
+    const uniqueDigits = getUniqueDigits(digits);
+    
+    // คำนวณผลลัพธ์
+    const win2_no_double = getCombinations2(uniqueDigits);
+    const win2_with_double = getCombinations2(uniqueDigits, true);
+    const win3_no_double = getCombinations3(uniqueDigits);
+    const win3_with_double = getCombinations3(uniqueDigits, true);
+
+    // สร้าง HTML สำหรับแสดงผล
+    let resultsHTML = `
+        <div class="win-box red"><strong>วิน 2 ตัวไม่รวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button><div id="win2nodup">${win2_no_double.join(', ')}</div></div>
+        <div class="win-box green"><strong>วิน 2 ตัวรวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button><div id="win2dup">${win2_with_double.join(', ')}</div></div>
+        <div class="win-box red"><strong>วิน 3 ตัวไม่รวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button><div id="win3nodup">${win3_no_double.join(', ')}</div></div>
+        <div class="win-box green"><strong>วิน 3 ตัวรวมเบิ้ล</strong><button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button><div id="win3dup">${win3_with_double.join(', ')}</div></div>
+    `;
+
+    document.getElementById('win_results').innerHTML = resultsHTML;
+}
+
 function resetWin() {
-  document.querySelector('input[name="win_input"]').value = '';
-  document.querySelectorAll('.win-box').forEach(box => box.remove());
+    document.getElementById('win_input').value = '';
+    document.getElementById('win_results').innerHTML = '';
 }
 
 function resetCount() {
