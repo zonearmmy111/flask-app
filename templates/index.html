@@ -243,32 +243,30 @@
   <!-- นับเลข (รวมผล OCR และพิมพ์) -->
   <div>
     <h2 style="color:var(--text-light); background:var(--primary); padding:10px 15px; border-radius:10px; display: flex; justify-content: space-between; align-items: center;">
-  นับเลข
-  <button onclick="resetCount()" class="reset-btn">RESET</button>
-</h2>
+        นับเลข
+        <button onclick="resetCount()" class="reset-btn">RESET</button>
+      </h2>
 
       <div id="pasted-image-box" class="paste-box">
-      <p class="paste-text">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
-      <p class="paste-text-small">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
+        <p class="paste-text">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
+        <p class="paste-text-small">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
+        <img id="pasted-image" style="max-width: 100%; margin-top: 20px; border-radius: 8px;" />
+      </div>
 
-      <img id="pasted-image" style="max-width: 100%; margin-top: 20px; border-radius: 8px;" />
+      <div class="input-group">
+        <input type="text" 
+               id="numbersInput" 
+               name="numbers" 
+               placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" 
+               autocomplete="off"
+               oninput="calculateNumbers(this.value)"
+               value="{{ original_input }}">
+      </div>
+
+      <div id="count_results">
+        <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+      </div>
     </div>
-    <form method="POST" style="margin-top: 20px;">
-      <input type="hidden" name="form_type" value="count">
-      <input type="hidden" name="prev_win_input" value="{{ win_input }}">
-      <input type="text" id="numbersInput" name="numbers" placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" required autocomplete="off" value="{{ original_input }}">
-      <button type="submit">นับเลข</button>
-    </form>
-    {% if result %}
-      <div class="win-box red"><strong>เลขที่ป้อน</strong><button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button><div id="input-numbers">{{ original_input }}</div></div>
-      <div class="win-box green"><strong>เลขที่แยกได้</strong><button class="copy-btn" onclick="copyToClipboard('split-numbers', this)">คัดลอก</button><div id="split-numbers">{{ result | join(', ') }}</div></div>
-      <div class="win-box red"><strong>จำนวน (ไม่รวมเลขซ้ำ)</strong><div>{{ result|length }} ตัว</div></div>
-      {% if duplicates %}
-        <div class="win-box green"><strong>เลขที่ซ้ำกัน</strong><button class="copy-btn" onclick="copyToClipboard('dup-numbers', this)">คัดลอก</button><div id="dup-numbers">{{ duplicates | join(', ') }}</div></div>
-      {% else %}
-        <div class="win-box green"><strong>สถานะ</strong><div>ไม่มีเลขซ้ำ</div></div>
-      {% endif %}
-    {% endif %}
 
   </div>
 </div>
@@ -378,13 +376,8 @@ document.addEventListener('paste', function (event) {
 
           if (data.text) {
             document.getElementById("numbersInput").value = data.text;
-            // หา form ที่มี input ชื่อ form_type เป็น count
-            const countForm = document.querySelector('form input[name="form_type"][value="count"]').closest('form');
-            if (countForm) {
-              countForm.submit();
-            } else {
-              alert("ไม่พบฟอร์มสำหรับส่งข้อมูล กรุณารีเฟรชหน้าเว็บ");
-            }
+            // ส่งฟอร์มโดยตรง
+            document.getElementById("numbersInput").closest('form').submit();
           } else {
             alert("ไม่พบตัวเลขในภาพ กรุณาลองภาพอื่น หรือปรับภาพให้ชัดขึ้น");
           }
@@ -468,10 +461,63 @@ function resetWin() {
     localStorage.removeItem('winInput');
 }
 
+function calculateNumbers(input) {
+    // แยกเฉพาะเลข 2 หลัก
+    const numbers = input.match(/\d{2}/g) || [];
+    
+    // หาเลขที่ซ้ำกัน
+    const numberCounts = {};
+    numbers.forEach(num => {
+        numberCounts[num] = (numberCounts[num] || 0) + 1;
+    });
+    
+    const uniqueNumbers = [...new Set(numbers)];
+    const duplicates = Object.entries(numberCounts)
+        .filter(([_, count]) => count > 1)
+        .map(([num, _]) => num);
+
+    // สร้าง HTML สำหรับแสดงผล
+    let resultsHTML = '';
+    
+    if (numbers.length > 0) {
+        resultsHTML += `
+            <div class="win-box red">
+                <strong>เลขที่ป้อน</strong>
+                <button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button>
+                <div id="input-numbers">${input}</div>
+            </div>
+            <div class="win-box green">
+                <strong>เลขที่แยกได้</strong>
+                <button class="copy-btn" onclick="copyToClipboard('split-numbers', this)">คัดลอก</button>
+                <div id="split-numbers">${uniqueNumbers.join(', ')}</div>
+            </div>
+            <div class="win-box red">
+                <strong>จำนวน (ไม่รวมเลขซ้ำ)</strong>
+                <div>${uniqueNumbers.length} ตัว</div>
+            </div>`;
+
+        if (duplicates.length > 0) {
+            resultsHTML += `
+                <div class="win-box green">
+                    <strong>เลขที่ซ้ำกัน</strong>
+                    <button class="copy-btn" onclick="copyToClipboard('dup-numbers', this)">คัดลอก</button>
+                    <div id="dup-numbers">${duplicates.join(', ')}</div>
+                </div>`;
+        } else {
+            resultsHTML += `
+                <div class="win-box green">
+                    <strong>สถานะ</strong>
+                    <div>ไม่มีเลขซ้ำ</div>
+                </div>`;
+        }
+    }
+
+    document.getElementById('count_results').innerHTML = resultsHTML;
+}
+
 function resetCount() {
     document.getElementById('numbersInput').value = '';
-    const resultBox = document.querySelector('.result');
-    if (resultBox) resultBox.remove();
+    document.getElementById('count_results').innerHTML = '';
     document.getElementById('pasted-image').style.display = 'none';
 }
 
