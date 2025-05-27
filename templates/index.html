@@ -297,12 +297,19 @@ function toggleDarkMode() {
   localStorage.setItem("darkMode", isDark);
   loadStickers();
 }
-window.onload = function () {
-  document.getElementById("loading-indicator").style.display = 'none';
-  if (localStorage.getItem("darkMode") === "true") {
-    document.body.classList.add("dark-mode");
-  }
-  loadStickers();
+window.onload = function() {
+    // ตรวจสอบว่ามีข้อมูลเก่าใน localStorage หรือไม่
+    const savedWinInput = localStorage.getItem('winInput');
+    if (savedWinInput) {
+        document.getElementById('win_input').value = savedWinInput;
+        calculateWin(savedWinInput);
+    }
+    
+    // โหลดโหมดมืด (คงไว้ถ้ามีโค้ดเดิม)
+    if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
+    }
+    loadStickers();
 };
 
 function loadStickers() {
@@ -375,6 +382,9 @@ document.addEventListener('paste', function (event) {
 });
 
 function calculateWin(input) {
+    // บันทึกค่าลงใน localStorage
+    localStorage.setItem('winInput', input);
+    
     // ลบตัวอักษรที่ไม่ใช่ตัวเลข
     const digits = input.replace(/[^0-9]/g, '');
     
@@ -434,13 +444,15 @@ function calculateWin(input) {
 function resetWin() {
     document.getElementById('win_input').value = '';
     document.getElementById('win_results').innerHTML = '';
+    // ลบข้อมูลใน localStorage เมื่อกด RESET
+    localStorage.removeItem('winInput');
 }
 
 function resetCount() {
-  document.querySelector('input[name="numbers"]').value = '';
-  const resultBox = document.querySelector('.result');
-  if (resultBox) resultBox.remove();
-  document.getElementById('pasted-image').style.display = 'none';
+    document.getElementById('numbersInput').value = '';
+    const resultBox = document.querySelector('.result');
+    if (resultBox) resultBox.remove();
+    document.getElementById('pasted-image').style.display = 'none';
 }
 
 </script>
