@@ -36,7 +36,7 @@
     .container {
       max-width: 100%;
       margin: auto;
-      padding: 40px;
+      padding: 40px 60px;
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
@@ -47,6 +47,7 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+      padding: 0 20px;
     }
     h1 {
       width: 100%;
@@ -71,16 +72,17 @@
       background: var(--primary);
       padding: 15px 20px;
       border-radius: 10px;
-      margin: 0 0 20px 0;
+      margin: 0 auto 20px auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: calc(100% - 40px);
+      width: 85%;
     }
     .input-group {
       background: transparent;
       padding: 0;
-      margin: 0 20px 20px 20px;
+      margin: 0 auto 20px auto;
+      width: 85%;
     }
     .dark-mode .input-group {
       background: transparent;
@@ -109,7 +111,8 @@
       background: white;
       padding: 20px;
       border-radius: 10px;
-      margin: 0 20px 20px 20px;
+      margin: 0 auto 20px auto;
+      width: 85%;
       border-left: 6px solid;
       transition: all 0.3s ease;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
