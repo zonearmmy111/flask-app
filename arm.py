@@ -77,24 +77,66 @@ def get_win_combinations(digits):
 
 @app.route('/ocr-image', methods=['POST'])
 def ocr_image():
-    data = request.get_json()
-    if 'image' not in data:
-        return jsonify({'text': ''})
+    try:
+        data = request.get_json()
+        if 'image' not in data:
+            return jsonify({'error': 'No image data provided', 'text': ''})
 
-    image_data = data['image'].split(',')[1]
-    image = Image.open(BytesIO(base64.b64decode(image_data)))
-    open_cv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+        # แยกส่วน base64 header ออก
+        try:
+            image_data = data['image'].split(',')[1]
+        except IndexError:
+            return jsonify({'error': 'Invalid image format', 'text': ''})
 
-    # Preprocessing
-    open_cv_image = cv2.resize(open_cv_image, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
-    gray = cv2.cvtColor(open_cv_image, cv2.COLOR_BGR2GRAY)
-    _, thresh = cv2.threshold(gray, 160, 255, cv2.THRESH_BINARY)
+        # แปลง base64 เป็นรูปภาพ
+        try:
+            image = Image.open(BytesIO(base64.b64decode(image_data)))
+        except Exception as e:
+            return jsonify({'error': f'Cannot decode image: {str(e)}', 'text': ''})
 
-    # OCR (ใช้ image_to_string เหมือนเดิม)
-    text = pytesseract.image_to_string(thresh, config='--psm 6 -c tessedit_char_whitelist=0123456789')
+        # แปลงเป็น OpenCV format
+        try:
+            open_cv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+        except Exception as e:
+            return jsonify({'error': f'Cannot convert image: {str(e)}', 'text': ''})
 
-    # แยกเฉพาะเลข 2 หลัก
-    numbers = re.findall(r'\d{2}', text)
+        # Preprocessing
+        try:
+            # ปรับขนาดภาพให้ใหญ่ขึ้น
+            open_cv_image = cv2.resize(open_cv_image, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
+            
+            # แปลงเป็นภาพขาวดำ
+            gray = cv2.cvtColor(open_cv_image, cv2.COLOR_BGR2GRAY)
+            
+            # ปรับความคมชัด
+            gray = cv2.GaussianBlur(gray, (5, 5), 0)
+            
+            # ปรับ threshold แบบ adaptive
+            thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+            
+            # เพิ่ม dilation เพื่อทำให้ตัวเลขชัดขึ้น
+            kernel = np.ones((2,2), np.uint8)
+            thresh = cv2.dilate(thresh, kernel, iterations=1)
+            
+        except Exception as e:
+            return jsonify({'error': f'Image preprocessing failed: {str(e)}', 'text': ''})
 
-    return jsonify({'text': ' '.join(numbers)})
+        # OCR
+        try:
+            # ใช้ค่า PSM ที่เหมาะสมกับการอ่านตัวเลข และเพิ่ม config เพื่อเพิ่มความแม่นยำ
+            custom_config = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789'
+            text = pytesseract.image_to_string(thresh, config=custom_config)
+        except Exception as e:
+            return jsonify({'error': f'OCR process failed: {str(e)}', 'text': ''})
+
+        # แยกเฉพาะเลข 2 หลัก
+        numbers = re.findall(r'\d{2}', text)
+        
+        if not numbers:
+            return jsonify({'warning': 'No two-digit numbers found in image', 'text': ''})
+
+        return jsonify({'text': ' '.join(numbers)})
+
+    except Exception as e:
+        return jsonify({'error': f'Unexpected error: {str(e)}', 'text': ''})
 

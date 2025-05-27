@@ -188,30 +188,32 @@
     .dark-mode .paste-text-small {
       color: var(--text-light);
     }
+    #loading-indicator {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255,255,255,0.85);
+      z-index: 9999;
+      font-size: 26px;
+      font-weight: bold;
+      color: #333;
+      pointer-events: none;
+    }
+    #loading-indicator.show {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
 <button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
-<div id="loading-indicator" style="
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(255,255,255,0.85);
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 26px;
-  font-weight: bold;
-  color: #333;
-  pointer-events: none;
-">
+<div id="loading-indicator">
   🔄 กำลังประมวลผลภาพ...
 </div>
-
-
-
 
 <div class="container">
   <h1 style="font-size:48px; color:var(--primary); text-shadow:2px 2px 6px rgba(0,0,0,0.2);">ArmTyKH</h1>
@@ -346,8 +348,8 @@ document.addEventListener('paste', function (event) {
       reader.onload = function (event) {
         const base64Image = event.target.result;
 
-        // ✅ แสดงข้อความทันทีหลังวางภาพ
-        document.getElementById('loading-indicator').style.display = 'flex';
+        // แสดง loading indicator
+        document.getElementById('loading-indicator').classList.add('show');
 
         document.getElementById('pasted-image').src = base64Image;
         document.getElementById('pasted-image').style.display = 'block';
@@ -359,20 +361,32 @@ document.addEventListener('paste', function (event) {
         })
         .then(response => response.json())
         .then(data => {
-          // ✅ OCR เสร็จแล้ว → ซ่อนข้อความก่อน submit
-          document.getElementById("loading-indicator").style.display = 'none';
+          // ซ่อน loading indicator
+          document.getElementById('loading-indicator').classList.remove('show');
+
+          if (data.error) {
+            // แสดงข้อความ error ที่ได้จาก server
+            alert(`เกิดข้อผิดพลาด: ${data.error}`);
+            return;
+          }
+
+          if (data.warning) {
+            // แสดงข้อความเตือน
+            alert(`คำเตือน: ${data.warning}`);
+            return;
+          }
 
           if (data.text) {
             document.getElementById("numbersInput").value = data.text;
             document.forms[1].submit();
           } else {
-            alert("ไม่สามารถอ่านค่าภาพได้");
+            alert("ไม่พบตัวเลขในภาพ กรุณาลองภาพอื่น หรือปรับภาพให้ชัดขึ้น");
           }
         })
         .catch(error => {
-          alert("เกิดข้อผิดพลาดในการส่งภาพ");
           console.error(error);
-          document.getElementById("loading-indicator").style.display = 'none';
+          document.getElementById('loading-indicator').classList.remove('show');
+          alert("เกิดข้อผิดพลาดในการส่งภาพ: " + error.message);
         });
       };
 
