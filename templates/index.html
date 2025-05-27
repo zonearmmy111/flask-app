@@ -203,11 +203,11 @@
   <button onclick="resetCount()" style="background:var(--primary-hover); color:var(--text-light); font-size:14px; padding:4px 10px; border:none; border-radius:6px;">Reset</button>
 </h2>
 
-      <div id="pasted-image-box" style="border: 2px dashed var(--border-light); background: var(--input-bg-light); padding: 40px; height: 240px;">
-      <p style="margin: 0;">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
-      <p style="margin: 0; color: var(--text-light); font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
+      <div id="pasted-image-box" style="border: 2px dashed var(--border-light); background: var(--input-bg-light); padding: 40px; height: 240px; border-radius: 10px;">
+      <p style="margin: 0; color: var(--text-dark);">📋 กด <strong>Ctrl+V</strong> เพื่อวางภาพ</p>
+      <p style="margin: 0; color: var(--text-dark); font-size: 14px;">ใช้ได้เฉพาะภาพที่อยู่ใน Clipboard เท่านั้น!</p>
 
-      <img id="pasted-image" />
+      <img id="pasted-image" style="max-width: 100%; margin-top: 20px; border-radius: 8px;" />
     </div>
     <form method="POST">
       <input type="hidden" name="form_type" value="count">
@@ -216,17 +216,15 @@
       <button type="submit">นับเลข</button>
     </form>
     {% if result %}
-  <div class="result" style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-top: 20px;">
-    <strong>เลขที่ป้อน:</strong> {{ original_input }}<br>
-    <strong>เลขที่แยกได้:</strong> {{ result | join(', ') }}<br>
-    <strong style="color: red;">จำนวน (ไม่รวมเลขซ้ำ):</strong> {{ result|length }} ตัว<br>
-    {% if duplicates %}
-      <strong style="color: red;">เลขที่ซ้ำกัน:</strong> {{ duplicates | join(', ') }}
-    {% else %}
-      <strong style="color: green;">ไม่มีเลขซ้ำ</strong>
+      <div class="win-box red"><strong>เลขที่ป้อน</strong><button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button><div id="input-numbers">{{ original_input }}</div></div>
+      <div class="win-box green"><strong>เลขที่แยกได้</strong><button class="copy-btn" onclick="copyToClipboard('split-numbers', this)">คัดลอก</button><div id="split-numbers">{{ result | join(', ') }}</div></div>
+      <div class="win-box red"><strong>จำนวน (ไม่รวมเลขซ้ำ)</strong><div>{{ result|length }} ตัว</div></div>
+      {% if duplicates %}
+        <div class="win-box green"><strong>เลขที่ซ้ำกัน</strong><button class="copy-btn" onclick="copyToClipboard('dup-numbers', this)">คัดลอก</button><div id="dup-numbers">{{ duplicates | join(', ') }}</div></div>
+      {% else %}
+        <div class="win-box green"><strong>สถานะ</strong><div>ไม่มีเลขซ้ำ</div></div>
+      {% endif %}
     {% endif %}
-  </div>
-{% endif %}
 
   </div>
 </div>
