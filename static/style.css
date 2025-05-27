@@ -1,117 +1,178 @@
 /* ------------------------------ */
+/* Variables */
+/* ------------------------------ */
+:root {
+  --bg-light: #ffffff;
+  --bg-dark: #121212;
+  --text-light: #000000;
+  --text-dark: #ffffff;
+  --input-bg-light: #ffffff;
+  --input-bg-dark: #1e1e1e;
+  --border-light: #ccc;
+  --border-dark: #444;
+  --shadow-light: rgba(0, 0, 0, 0.06);
+  --shadow-dark: rgba(255, 255, 255, 0.05);
+  --copy-btn-bg: #f9a8d4;
+  --copy-btn-hover: #f472b6;
+}
+
+/* ------------------------------ */
 /* โหมดสว่าง (Light Mode) */
 /* ------------------------------ */
 body {
-  background-color: white;
-  color: black;
+  background-color: var(--bg-light);
+  color: var(--text-light);
   font-family: sans-serif;
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* ปุ่ม toggle โหมดกลางคืน - โหมดสว่าง */
 /* ปุ่ม toggle โหมดกลางคืน */
 button.toggle-dark {
   position: fixed;
   top: 10px;
   right: 10px;
   padding: 8px 12px;
-  border: 1px solid #ccc; /* ✅ เพิ่มกรอบสีเทาอ่อน */
+  border: 1px solid var(--border-light);
   border-radius: 8px;
-  background-color: #eee;
-  color: black;
+  background-color: var(--input-bg-light);
+  color: var(--text-light);
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s, border 0.3s;
+  transition: all 0.3s ease;
 }
 
-/* ปุ่ม toggle ในโหมดมืด */
-body.dark-mode button.toggle-dark {
-  background-color: #555;
-  color: white;
-  border: 1px solid #888; /* ✅ กรอบโหมดมืด */
-}
-
-
-/* สีหัวข้อวินเลข (ไม่รวมเบิ้ล และ รวมเบิ้ล) */
+/* สีหัวข้อวินเลข */
 .heading-nodup {
-  color: #6ea8e6; /* ฟ้า */
+  color: #6ea8e6;
 }
 
 .heading-dup {
-  color: #f05a5a; /* ส้ม */
+  color: #f05a5a;
 }
 
 /* ------------------------------ */
 /* โหมดมืด (Dark Mode) */
 /* ------------------------------ */
 body.dark-mode {
-  background-color: #121212;
-  color: white;
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
 }
 
-/* ปุ่ม toggle โหมดกลางคืน - โหมดมืด */
 body.dark-mode button.toggle-dark {
-  background-color: #555;
-  color: white;
+  background-color: var(--input-bg-dark);
+  color: var(--text-dark);
+  border-color: var(--border-dark);
 }
 
-/* สีหัวข้อวินเลขในโหมดมืด */
 body.dark-mode .heading-nodup {
   color: #66B2FF;
 }
 
 body.dark-mode .heading-dup {
-  color: #e60404;
+  color: #ff6b6b;
 }
+
 .win-box {
-  background-color: #ffffff;
+  background-color: var(--input-bg-light);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  transition: all 0.3s ease;
 }
 
-/* รองรับโหมดมืด */
 body.dark-mode .win-box {
-  background-color: #1e1e1e;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  background-color: var(--input-bg-dark);
+  box-shadow: 0 4px 12px var(--shadow-dark);
+  color: var(--text-dark);
 }
 
 .input-box {
-  background-color: #ffffff;
+  background-color: var(--input-bg-light);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  transition: all 0.3s ease;
 }
 
-/* โหมดมืด */
 body.dark-mode .input-box {
-  background-color: #1e1e1e;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  background-color: var(--input-bg-dark);
+  box-shadow: 0 4px 12px var(--shadow-dark);
+  color: var(--text-dark);
 }
+
 .copy-btn {
   font-size: 18px !important;
   padding: 9px 18px !important;
   border-radius: 10px !important;
-  background-color: #f9a8d4;
+  background-color: var(--copy-btn-bg);
   color: white;
   border: none;
+  transition: all 0.3s ease;
 }
+
+.copy-btn:hover {
+  background-color: var(--copy-btn-hover);
+}
+
 .image-paste-zone {
   margin-top: 12px;
   padding: 20px;
-  border: 2px dashed #ccc;
+  border: 2px dashed var(--border-light);
   border-radius: 10px;
   text-align: center;
   color: #888;
-  background-color: #fafafa;
+  background-color: var(--input-bg-light);
   min-height: 150px;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
 }
+
+body.dark-mode .image-paste-zone {
+  background-color: var(--input-bg-dark);
+  border-color: var(--border-dark);
+  color: #aaa;
+}
+
 .image-paste-zone.dragover {
-  background-color: #e0e0e0;
+  background-color: var(--input-bg-dark);
+}
+
+/* Form elements */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  background-color: var(--input-bg-light);
+  color: var(--text-light);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="number"],
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: var(--input-bg-dark);
+  color: var(--text-dark);
+  border-color: var(--border-dark);
+}
+
+/* Results and message boxes */
+.result,
+.message-box,
+.note-box {
+  background-color: var(--input-bg-light);
+  border: 1px solid var(--border-light);
+  color: var(--text-light);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .result,
+body.dark-mode .message-box,
+body.dark-mode .note-box {
+  background-color: var(--input-bg-dark);
+  border-color: var(--border-dark);
+  color: var(--text-dark);
 }
 
 
