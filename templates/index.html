@@ -317,6 +317,22 @@ function calculateWin(input) {
     return results;
   }
 
+  // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 3 ตัวรวมหาม
+  function getCombinations3WithPair(arr) {
+    const results = [];
+    // สร้างเลขที่มีตัวซ้ำ 2 ตัว
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr.length; j++) {
+        if (i !== j) {
+          results.push(arr[i] + arr[i] + arr[j]);
+          results.push(arr[i] + arr[j] + arr[i]);
+          results.push(arr[j] + arr[i] + arr[i]);
+        }
+      }
+    }
+    return [...new Set(results)].sort();
+  }
+
   const uniqueDigits = getUniqueDigits(digits);
   
   // คำนวณผลลัพธ์
@@ -324,6 +340,7 @@ function calculateWin(input) {
   const win2_with_double = getCombinations2(uniqueDigits, true);
   const win3_no_double = getCombinations3(uniqueDigits);
   const win3_with_double = getCombinations3(uniqueDigits, true);
+  const win3_with_pair = getCombinations3WithPair(uniqueDigits);
 
   // สร้าง HTML สำหรับแสดงผล
   let resultsHTML = `
@@ -346,6 +363,11 @@ function calculateWin(input) {
       <strong>วิน 3 ตัวรวมเบิ้ล</strong>
       <button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button>
       <div id="win3dup">${win3_with_double.join(', ')}</div>
+    </div>
+    <div class="win-box green">
+      <strong>วิน 3 ตัวรวมหาม</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win3pairdup', this)">คัดลอก</button>
+      <div id="win3pairdup">${win3_with_pair.join('-')}</div>
     </div>
   `;
 
