@@ -319,23 +319,30 @@ function calculateWin(input) {
 
   // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 3 ตัวรวมหาม
   function getCombinations3WithPair(arr) {
-    const results = [];
-    
-    // สร้างเลข 3 หลักที่มีเลขซ้ำกัน 2 ตัว
-    for (let i = 0; i < arr.length; i++) {
-      const a = arr[i];
-      for (let j = 0; j < arr.length; j++) {
-        const b = arr[j];
-        if (a === b) continue;
+    const results = new Set();
 
-        // สร้างรูปแบบ XXY และเรียงจากน้อยไปมาก
-        const combo = [a, a, b].sort().join('');
-        results.push(combo);
+    // วนลูปสร้างชุด AAB, ABA, ABB แล้ว sort เพื่อกันซ้ำ
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr.length; j++) {
+        if (i === j) continue;
+        const a = arr[i];
+        const b = arr[j];
+
+        // สร้างสามชุด: AAB, ABA, ABB
+        const combos = [
+          [a, a, b],
+          [a, b, a],
+          [b, a, a]
+        ];
+
+        combos.forEach(combo => {
+          const sorted = combo.sort().join('');
+          results.add(sorted);
+        });
       }
     }
 
-    // เรียงลำดับจากน้อยไปมากและกำจัดตัวซ้ำ
-    return [...new Set(results)].sort();
+    return [...results].sort();
   }
 
   const uniqueDigits = getUniqueDigits(digits);
