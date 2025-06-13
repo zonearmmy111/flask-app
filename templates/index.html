@@ -33,83 +33,155 @@
     body {
       font-family: 'Kanit', sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #f0f2f5;
-      min-height: 100vh;
+      background: var(--bg-light);
+      color: var(--text-dark);
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .dark-mode {
+      background: var(--bg-dark);
+      color: var(--text-light);
     }
     .container {
-      background: white;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 600px;
-    }
-    h1 {
-      color: #333;
-      text-align: center;
-      margin-bottom: 1.5rem;
-      font-size: 2rem;
-    }
-    .digit-count {
-      color: red;
-      font-size: 1em;
-      margin-left: 5px;
+      max-width: 100%;
+      margin: auto;
+      padding: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
     }
     .column {
+      flex: 1;
+      min-width: 300px;
+      max-width: 600px;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 20px;
+      margin: 0 auto;
+    }
+    h1 {
+      width: 100%;
+      font-size: 48px;
+      text-align: center;
+      color: var(--primary);
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      margin-bottom: 40px;
+    }
+    .section {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      height: 100%;
+    }
+    .dark-mode .section {
+      background: transparent;
+    }
+    h2 {
+      color: var(--text-light);
+      background: var(--primary);
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin: 0 0 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 95%;
     }
     .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
+      background: transparent;
+      padding: 0;
+      margin: 0 auto 20px auto;
+      width: 90%;
     }
-    label {
-      color: #666;
-      font-size: 1.1rem;
+    .dark-mode .input-group {
+      background: transparent;
     }
     input[type="text"] {
-      padding: 0.8rem;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
       border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: border-color 0.3s;
+      border-radius: 10px;
+      background-color: transparent;
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+      height: 42px;
+    }
+    .dark-mode input[type="text"] {
+      background-color: transparent;
+      border-color: var(--input-border-dark);
+      color: var(--text-light);
     }
     input[type="text"]:focus {
+      border-color: var(--primary);
       outline: none;
-      border-color: #ff4757;
+      box-shadow: none;
     }
-    button {
-      background-color: #ff4757;
-      color: white;
+    .win-box {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 0 auto 20px auto;
+      width: 90%;
+      border-left: 6px solid;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      min-height: 80px;
+    }
+    .win-box.red { border-color: #ff4757; }
+    .win-box.green { border-color: #2ed573; }
+    .dark-mode .win-box {
+      background: var(--result-bg-dark);
+    }
+    .copy-btn {
+      font-size: 16px;
+      padding: 8px 16px;
+      margin-left: 10px;
+      background-color: var(--primary);
       border: none;
-      padding: 1rem;
       border-radius: 8px;
-      font-size: 1.1rem;
+      color: white;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: all 0.2s ease;
     }
-    button:hover {
-      background-color: #ff6b81;
+    .copy-btn:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
     }
-    .result {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      background-color: #f8f9fa;
+    #toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      border: 2px solid var(--primary);
       border-radius: 8px;
-      white-space: pre-wrap;
-      font-size: 1rem;
-      line-height: 1.5;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--text-dark);
+      transition: all 0.3s ease;
     }
-    .error {
-      color: #ff4757;
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
+    .dark-mode #toggle-btn {
+      background: var(--input-bg-dark);
+      color: var(--text-light);
+    }
+    .reset-btn {
+      background-color: #ff4757 !important;
+      color: white !important;
+      font-size: 16px !important;
+      padding: 8px 16px !important;
+      border: none !important;
+      border-radius: 8px !important;
+      font-weight: bold !important;
+      text-transform: uppercase !important;
+      transition: all 0.2s ease !important;
+    }
+    .reset-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255,71,87,0.3);
     }
   </style>
 </head>
@@ -117,15 +189,56 @@
 <button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
 
 <div class="container">
-  <h1>วินเลข<span id="digitCount" class="digit-count"></span></h1>
+  <div class="title-box">
+    <h1>วินเลข <span id="digitCount" style="color: red; font-size: 1em;">0 ตัว</span></h1>
+  </div>
   
   <div class="column">
-    <div class="input-group">
-      <label for="win_input">กรอกตัวเลข (1-9):</label>
-      <input type="text" id="win_input" placeholder="เช่น: 123456" maxlength="9">
+    <!-- วินเลข -->
+    <div class="section">
+      <h2>
+        วินเลข
+        <button onclick="resetWin()" class="reset-btn">RESET</button>
+      </h2>
+
+      <div class="input-group">
+        <input type="text" 
+               id="win_input" 
+               name="win_input" 
+               placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" 
+               autocomplete="off" 
+               oninput="calculateWin(this.value)"
+               value="{{ win_input }}">
+      </div>
+
+      <div id="win_results">
+        <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+      </div>
     </div>
-    <button onclick="generateCombinations()">สร้างชุดตัวเลข</button>
-    <div id="result" class="result"></div>
+  </div>
+
+  <div class="column">
+    <!-- นับเลข -->
+    <div class="section">
+      <h2>
+        นับเลข
+        <button onclick="resetCount()" class="reset-btn">RESET</button>
+      </h2>
+
+      <div class="input-group">
+        <input type="text" 
+               id="numbersInput" 
+               name="numbers" 
+               placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" 
+               autocomplete="off"
+               oninput="calculateNumbers(this.value)"
+               value="{{ original_input }}">
+      </div>
+
+      <div id="count_results">
+        <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+      </div>
+    </div>
   </div>
 </div>
 
@@ -165,64 +278,202 @@ function copyToClipboard(elementId, button) {
   });
 }
 
-function updateDigitCount() {
-  const digits = document.getElementById('win_input').value;
-  // เอาเฉพาะตัวเลขและนับเฉพาะตัวที่ไม่ซ้ำกัน
-  const uniqueDigits = [...new Set(digits.match(/[1-9]/g) || [])];
-  const count = uniqueDigits.length;
-  const digitCountElement = document.getElementById('digitCount');
-  if (count > 0) {
-    digitCountElement.textContent = ` ${count} ตัว`;
-  } else {
-    digitCountElement.textContent = '';
+// Calculate win combinations
+function calculateWin(input) {
+  // บันทึกค่าลงใน localStorage
+  localStorage.setItem('winInput', input);
+  
+  // ลบตัวอักษรที่ไม่ใช่ตัวเลข
+  const digits = input.replace(/[^0-9]/g, '');
+  
+  if (digits.length < 2) {
+    document.getElementById('win_results').innerHTML = '';
+    return;
   }
+
+  // สร้างฟังก์ชันสำหรับหาเลขไม่ซ้ำ
+  function getUniqueDigits(digits) {
+    return [...new Set(digits.split(''))];
+  }
+
+  // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 2 ตัว
+  function getCombinations2(arr, allowDuplicates = false) {
+    const results = [];
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
+        results.push(arr[i] + arr[j]);
+      }
+    }
+    return results;
+  }
+
+  // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 3 ตัว
+  function getCombinations3(arr, allowDuplicates = false) {
+    const results = [];
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
+        for (let k = (allowDuplicates ? j : j + 1); k < arr.length; k++) {
+          results.push(arr[i] + arr[j] + arr[k]);
+        }
+      }
+    }
+    return results;
+  }
+
+  const uniqueDigits = getUniqueDigits(digits);
+  
+  // คำนวณผลลัพธ์
+  const win2_no_double = getCombinations2(uniqueDigits);
+  const win2_with_double = getCombinations2(uniqueDigits, true);
+  const win3_no_double = getCombinations3(uniqueDigits);
+  const win3_with_double = getCombinations3(uniqueDigits, true);
+  const win3_with_pair = generateWin3(uniqueDigits);
+
+  // สร้าง HTML สำหรับแสดงผล
+  let resultsHTML = `
+    <div class="win-box red">
+      <strong>วิน 2 ตัวไม่รวมเบิ้ล</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button>
+      <div id="win2nodup">${win2_no_double.join(', ')}</div>
+    </div>
+    <div class="win-box green">
+      <strong>วิน 2 ตัวรวมเบิ้ล</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win2dup', this)">คัดลอก</button>
+      <div id="win2dup">${win2_with_double.join(', ')}</div>
+    </div>
+    <div class="win-box red">
+      <strong>วิน 3 ตัวไม่รวมเบิ้ล</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win3nodup', this)">คัดลอก</button>
+      <div id="win3nodup">${win3_no_double.join(', ')}</div>
+    </div>
+    <div class="win-box green">
+      <strong>วิน 3 ตัวรวมเบิ้ล</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button>
+      <div id="win3dup">${win3_with_double.join(', ')}</div>
+    </div>
+    <div class="win-box green">
+      <strong>วิน 3 ตัวรวมเบิ้ล + ไม่ซ้ำ</strong>
+      <button class="copy-btn" onclick="copyToClipboard('win3pair', this)">คัดลอก</button>
+      <div id="win3pair">${win3_with_pair.join('-')}</div>
+    </div>
+  `;
+
+  document.getElementById('win_results').innerHTML = resultsHTML;
 }
 
-document.getElementById('win_input').addEventListener('input', updateDigitCount);
+function resetWin() {
+  document.getElementById('win_input').value = '';
+  document.getElementById('win_results').innerHTML = '';
+  localStorage.removeItem('winInput');
+}
 
-function generateCombinations() {
-  const digits = document.getElementById('win_input').value;
-  const resultDiv = document.getElementById('result');
+function calculateNumbers(input) {
+  // แยกเฉพาะเลข 2 หลัก
+  const numbers = input.match(/\d{2}/g) || [];
   
-  // ตรวจสอบว่ามีการกรอกตัวเลขหรือไม่
-  if (!digits) {
-    resultDiv.innerHTML = '<div class="error">กรุณากรอกตัวเลข</div>';
-    return;
+  // หาเลขที่ซ้ำกัน
+  const numberCounts = {};
+  numbers.forEach(num => {
+    numberCounts[num] = (numberCounts[num] || 0) + 1;
+  });
+  
+  const uniqueNumbers = [...new Set(numbers)];
+  const duplicates = Object.entries(numberCounts)
+    .filter(([_, count]) => count > 1)
+    .map(([num, _]) => num);
+
+  // สร้าง HTML สำหรับแสดงผล
+  let resultsHTML = '';
+  
+  if (numbers.length > 0) {
+    resultsHTML += `
+      <div class="win-box red">
+        <strong>เลขที่ป้อน</strong>
+        <button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button>
+        <div id="input-numbers">${input}</div>
+      </div>
+      <div class="win-box green">
+        <strong>เลขที่แยกได้</strong>
+        <button class="copy-btn" onclick="copyToClipboard('split-numbers', this)">คัดลอก</button>
+        <div id="split-numbers">${uniqueNumbers.join(', ')}</div>
+      </div>
+      <div class="win-box red">
+        <strong>จำนวน (ไม่รวมเลขซ้ำ)</strong>
+        <div>${uniqueNumbers.length} ตัว</div>
+      </div>`;
+
+    if (duplicates.length > 0) {
+      resultsHTML += `
+        <div class="win-box green">
+          <strong>เลขที่ซ้ำกัน</strong>
+          <button class="copy-btn" onclick="copyToClipboard('dup-numbers', this)">คัดลอก</button>
+          <div id="dup-numbers">${duplicates.join(', ')}</div>
+        </div>`;
+    }
   }
 
-  // ตรวจสอบว่าตัวเลขที่กรอกเป็นตัวเลข 1-9 เท่านั้น
-  if (!/^[1-9]+$/.test(digits)) {
-    resultDiv.innerHTML = '<div class="error">กรุณากรอกตัวเลข 1-9 เท่านั้น</div>';
-    return;
+  document.getElementById('count_results').innerHTML = resultsHTML;
+}
+
+function resetCount() {
+  document.getElementById('numbersInput').value = '';
+  document.getElementById('count_results').innerHTML = '';
+}
+
+// โหลดค่าวินเลขจาก localStorage เมื่อโหลดหน้า
+document.addEventListener('DOMContentLoaded', () => {
+  const savedWinInput = localStorage.getItem('winInput');
+  if (savedWinInput) {
+    document.getElementById('win_input').value = savedWinInput;
+    calculateWin(savedWinInput);
+  }
+});
+
+// เพิ่มฟังก์ชัน generateWin3
+function generateWin3(digits) {
+  const results = new Set();
+
+  // กรณีเลขเบิ้ล: AAB, ABA, ABB
+  for (let i = 0; i < digits.length; i++) {
+    for (let j = 0; j < digits.length; j++) {
+      if (i === j) continue;
+      const a = digits[i];
+      const b = digits[j];
+
+      const combos = [
+        [a, a, b],
+        [a, b, a],
+        [b, a, a]
+      ];
+
+      combos.forEach(combo => {
+        const sorted = combo.sort().join('');
+        results.add(sorted);
+      });
+    }
   }
 
-  // สร้างชุดตัวเลขตามเงื่อนไข
-  let combinations = [];
-  let digitArray = digits.split('');
-
-  // เงื่อนไขที่ 1: ตัวเลขซ้ำกัน 3 ตัว
-  for (let i = 0; i < digitArray.length; i++) {
-    combinations.push(digitArray[i] + digitArray[i] + digitArray[i]);
-  }
-
-  // เงื่อนไขที่ 2: ตัวเลขไม่ซ้ำกัน 3 ตัว
-  for (let i = 0; i < digitArray.length; i++) {
-    for (let j = 0; j < digitArray.length; j++) {
-      for (let k = 0; k < digitArray.length; k++) {
-        if (i !== j && j !== k && i !== k) {
-          combinations.push(digitArray[i] + digitArray[j] + digitArray[k]);
-        }
+  // กรณีเลขไม่ซ้ำ: ABC
+  for (let i = 0; i < digits.length; i++) {
+    for (let j = i + 1; j < digits.length; j++) {
+      for (let k = j + 1; k < digits.length; k++) {
+        const combo = [digits[i], digits[j], digits[k]];
+        const sorted = combo.sort().join('');
+        results.add(sorted);
       }
     }
   }
 
-  // แสดงผลลัพธ์
-  if (combinations.length > 0) {
-    resultDiv.textContent = combinations.join('\n');
-  } else {
-    resultDiv.innerHTML = '<div class="error">ไม่พบชุดตัวเลขที่ตรงตามเงื่อนไข</div>';
-  }
+  return [...results].sort();
 }
+
+// เพิ่ม event listener สำหรับ input
+document.getElementById('win_input').addEventListener('input', function(e) {
+  // นับจำนวนตัวเลขที่ไม่ซ้ำกัน
+  const input = e.target.value.replace(/\D/g, '');
+  const uniqueDigits = [...new Set(input.split(''))];
+  document.getElementById('digitCount').textContent = `${uniqueDigits.length} ตัว`;
+});
 </script>
 </body>
 </html>
