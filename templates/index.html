@@ -324,9 +324,12 @@ function calculateWin(input) {
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length; j++) {
         if (i !== j) {
-          results.push(arr[i] + arr[i] + arr[j]);
-          results.push(arr[i] + arr[j] + arr[i]);
-          results.push(arr[j] + arr[i] + arr[i]);
+          // สร้างเฉพาะรูปแบบที่ต้องการ: XXY (X < Y)
+          const x = arr[i];
+          const y = arr[j];
+          if (x < y) {
+            results.push(x + x + y);
+          }
         }
       }
     }
