@@ -328,16 +328,13 @@ function calculateWin(input) {
         const b = arr[j];
         if (a === b) continue;
 
-        // สร้างรูปแบบ XXY
-        results.push(a + a + b);
-        // สร้างรูปแบบ XYX
-        results.push(a + b + a);
-        // สร้างรูปแบบ YXX
-        results.push(b + a + a);
+        // สร้างรูปแบบ XXY และเรียงจากน้อยไปมาก
+        const combo = [a, a, b].sort().join('');
+        results.push(combo);
       }
     }
 
-    // เรียงลำดับจากน้อยไปมาก
+    // เรียงลำดับจากน้อยไปมากและกำจัดตัวซ้ำ
     return [...new Set(results)].sort();
   }
 
