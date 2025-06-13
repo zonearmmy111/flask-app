@@ -197,27 +197,11 @@
     <!-- วินเลข -->
     <div class="section">
       <h2>วินเลข <span id="digitCount" style="color: red; font-size: 1em;">0 ตัว</span></h2>
-    </div>
-    <!-- วินเลข -->
-    <div class="section">
-      <h2>
-        วินเลข
-        <button onclick="resetWin()" class="reset-btn">RESET</button>
-      </h2>
-
       <div class="input-group">
-        <input type="text" 
-               id="win_input" 
-               name="win_input" 
-               placeholder="ป้อนเลข 3-9 หลัก เช่น 123456" 
-               autocomplete="off" 
-               oninput="calculateWin(this.value)"
-               value="{{ win_input }}">
+        <input type="text" id="win_input" placeholder="กรอกเลข เช่น 1234" />
+        <button onclick="calculateWin()">คำนวณ</button>
       </div>
-
-      <div id="win_results">
-        <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
-      </div>
+      <div id="win_results"></div>
     </div>
   </div>
 
