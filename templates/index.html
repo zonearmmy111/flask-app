@@ -319,21 +319,20 @@ function calculateWin(input) {
 
   // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 3 ตัวรวมหาม
   function getCombinations3WithPair(arr) {
-    const results = [];
-    // สร้างเลขที่มีตัวซ้ำ 2 ตัว
+    const results = new Set();
+    
     for (let i = 0; i < arr.length; i++) {
+      const a = arr[i];
       for (let j = 0; j < arr.length; j++) {
-        if (i !== j) {
-          // สร้างเฉพาะรูปแบบที่ต้องการ: XXY (X < Y)
-          const x = arr[i];
-          const y = arr[j];
-          if (x < y) {
-            results.push(x + x + y);
-          }
-        }
+        const b = arr[j];
+        if (a === b) continue;
+
+        const combo = [a, a, b].sort().join('');
+        results.add(combo);
       }
     }
-    return [...new Set(results)].sort();
+
+    return [...results].sort();
   }
 
   const uniqueDigits = getUniqueDigits(digits);
