@@ -328,15 +328,17 @@ function calculateWin(input) {
         const b = arr[j];
         if (a === b) continue;
 
-        // สร้างรูปแบบ XXY โดยให้ X < Y
-        if (a < b) {
-          results.push(a + a + b);
-        }
+        // สร้างรูปแบบ XXY
+        results.push(a + a + b);
+        // สร้างรูปแบบ XYX
+        results.push(a + b + a);
+        // สร้างรูปแบบ YXX
+        results.push(b + a + a);
       }
     }
 
     // เรียงลำดับจากน้อยไปมาก
-    return results.sort();
+    return [...new Set(results)].sort();
   }
 
   const uniqueDigits = getUniqueDigits(digits);
