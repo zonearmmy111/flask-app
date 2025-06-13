@@ -2,6 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ArmTyKH</title>
   <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
   <!-- Google tag (gtag.js) -->
@@ -182,13 +183,18 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(255,71,87,0.3);
     }
+    .digit-count {
+      color: red;
+      font-size: 1em;
+      margin-left: 5px;
+    }
   </style>
 </head>
 <body>
 <button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
 
 <div class="container">
-  <h1>ArmTyKH</h1>
+  <h1>ArmTyKH<span id="digitCount" class="digit-count"></span></h1>
   
   <div class="column">
     <!-- วินเลข -->
@@ -463,6 +469,19 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateWin(savedWinInput);
   }
 });
+
+function updateDigitCount() {
+  const digits = document.getElementById('win_input').value;
+  const count = digits.length;
+  const digitCountElement = document.getElementById('digitCount');
+  if (count > 0) {
+    digitCountElement.textContent = ` ${count} ตัว`;
+  } else {
+    digitCountElement.textContent = '';
+  }
+}
+
+document.getElementById('win_input').addEventListener('input', updateDigitCount);
 </script>
 </body>
 </html>
