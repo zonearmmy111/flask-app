@@ -321,14 +321,13 @@ function calculateWin(input) {
   function getCombinations3WithPair(arr) {
     const results = new Set();
 
-    // วนลูปสร้างชุด AAB, ABA, ABB แล้ว sort เพื่อกันซ้ำ
+    // กรณีเลขเบิ้ล: AAB, ABA, ABB
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length; j++) {
         if (i === j) continue;
         const a = arr[i];
         const b = arr[j];
 
-        // สร้างสามชุด: AAB, ABA, ABB
         const combos = [
           [a, a, b],
           [a, b, a],
@@ -339,6 +338,17 @@ function calculateWin(input) {
           const sorted = combo.sort().join('');
           results.add(sorted);
         });
+      }
+    }
+
+    // กรณีเลขไม่ซ้ำ: ABC
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        for (let k = j + 1; k < arr.length; k++) {
+          const combo = [arr[i], arr[j], arr[k]];
+          const sorted = combo.sort().join('');
+          results.add(sorted);
+        }
       }
     }
 
