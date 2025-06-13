@@ -321,6 +321,7 @@ function calculateWin(input) {
   function getCombinations3WithPair(arr) {
     const results = new Set();
     
+    // กรณีที่ 1: เลขซ้ำกัน 2 ตัว เช่น 112, 133
     for (let i = 0; i < arr.length; i++) {
       const a = arr[i];
       for (let j = 0; j < arr.length; j++) {
@@ -329,6 +330,22 @@ function calculateWin(input) {
 
         const combo = [a, a, b].sort().join('');
         results.add(combo);
+      }
+    }
+
+    // กรณีที่ 2: เลขซ้ำกัน 1 ตัว เช่น 123, 234
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        for (let k = 0; k < arr.length; k++) {
+          const a = arr[i];
+          const b = arr[j];
+          const c = arr[k];
+
+          if ((a === b && b !== c) || (a === c && c !== b) || (b === c && c !== a)) {
+            const combo = [a, b, c].sort().join('');
+            results.add(combo);
+          }
+        }
       }
     }
 
@@ -369,7 +386,7 @@ function calculateWin(input) {
     <div class="win-box green">
       <strong>วิน 3 ตัวรวมหาม</strong>
       <button class="copy-btn" onclick="copyToClipboard('win3pairdup', this)">คัดลอก</button>
-      <div id="win3pairdup">${win3_with_pair.join('-')}</div>
+      <div id="win3pairdup" style="white-space: pre-wrap;">${win3_with_pair.join('-')}</div>
     </div>
   `;
 
