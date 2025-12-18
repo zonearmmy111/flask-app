@@ -345,12 +345,12 @@ function calculateWin(input) {
       <div id="win3nodup">${win3_no_double.join(', ')}</div>
     </div>
     <div class="win-box green">
-      <strong>วิน 3 ตัวรวมเบิ้ล(เอาตอง)</strong>
+      <strong>วิน 3 ตัวรวมเบิ้ล<span style="color: red;"> (เอาตอง)</span></strong>
       <button class="copy-btn" onclick="copyToClipboard('win3dup', this)">คัดลอก</button>
       <div id="win3dup">${win3_with_double.join(', ')}</div>
     </div>
     <div class="win-box green">
-      <strong>วิน 3 ตัวรวมหาม(ไม่เอาตอง)</strong>
+      <strong>วิน 3 ตัวรวมหาม<span style="color: red;"> (ไม่เอาตอง)</span></strong>
       <button class="copy-btn" onclick="copyToClipboard('win3pair', this)">คัดลอก</button>
       <div id="win3pair">${win3_with_pair.join(', ')}</div>
     </div>
