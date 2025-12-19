@@ -183,6 +183,31 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(255,71,87,0.3);
     }
+    /* --- เริ่มโค้ดปุ่มข้อเสนอแนะ --- */
+    .feedback-float-btn {
+      position: fixed;
+      bottom: 20px;       
+      right: 20px;        
+      background-color: #ff69b4; 
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px; 
+      text-decoration: none;
+      font-family: 'Kanit', sans-serif;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2); 
+      transition: all 0.3s ease;
+      z-index: 9999;      
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .feedback-float-btn:hover {
+      background-color: #ff1493; 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+    /* --- จบโค้ดปุ่มข้อเสนอแนะ --- */
   </style>
 </head>
 <body>
@@ -239,7 +264,9 @@
     </div>
   </div>
 </div>
-
+<a href="https://forms.gle/vvrowJ8irhR6axdD6" target="_blank" class="feedback-float-btn">
+    <span style="font-size: 20px;">💬</span> ข้อเสนอแนะ
+</a>
 <script>
 // Dark mode toggle
 function toggleDarkMode() {
