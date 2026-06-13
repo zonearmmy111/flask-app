@@ -1,381 +1,404 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ArmTyKH</title>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDE12345"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APKEYS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDE12345"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-FK83X9WFPE');
-</script>
+        gtag('config', 'G-FK83X9WFPE');
+    </script>
 
-  <style>
-    :root {
-      --bg-light: #f0f2f5;
-      --bg-dark: #1e1e2f;
-      --text-light: #ffffff;
-      --text-dark: #111;
-      --primary: #ff9ff3;
-      --primary-hover: #f368e0;
-      --input-bg-dark: #2c2c2c;
-      --input-border-dark: #444;
-      --result-bg-dark: #2a2a3a;
-      --result-border-dark: #444;
-      --border-light: #666;
-      --border-dark: #aaa;
-    }
-    body {
-      font-family: 'Kanit', sans-serif;
-      margin: 0;
-      background: var(--bg-light);
-      color: var(--text-dark);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-    .dark-mode {
-      background: var(--bg-dark);
-      color: var(--text-light);
-    }
-    .container {
-      max-width: 100%;
-      margin: auto;
-      padding: 40px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 40px;
-    }
-    .column {
-      flex: 1;
-      min-width: 300px;
-      max-width: 600px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin: 0 auto;
-    }
-    h1 {
-      width: 100%;
-      font-size: 48px;
-      text-align: center;
-      color: var(--primary);
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-      margin-bottom: 40px;
-    }
-    .section {
-      background: transparent;
-      padding: 0;
-      border-radius: 0;
-      box-shadow: none;
-      height: 100%;
-    }
-    .dark-mode .section {
-      background: transparent;
-    }
-    h2 {
-      color: var(--text-light);
-      background: var(--primary);
-      padding: 15px 20px;
-      border-radius: 10px;
-      margin: 0 0 20px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 95%;
-    }
-    .input-group {
-      background: transparent;
-      padding: 0;
-      margin: 0 auto 20px auto;
-      width: 90%;
-    }
-    .dark-mode .input-group {
-      background: transparent;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      background-color: transparent;
-      color: var(--text-dark);
-      transition: all 0.3s ease;
-      height: 42px;
-    }
-    .dark-mode input[type="text"] {
-      background-color: transparent;
-      border-color: var(--input-border-dark);
-      color: var(--text-light);
-    }
-    input[type="text"]:focus {
-      border-color: var(--primary);
-      outline: none;
-      box-shadow: none;
-    }
-    .win-box {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 0 auto 20px auto;
-      width: 90%;
-      border-left: 6px solid;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      min-height: 80px;
-    }
-    .win-box.red { border-color: #ff4757; }
-    .win-box.green { border-color: #2ed573; }
-    .dark-mode .win-box {
-      background: var(--result-bg-dark);
-    }
-    .copy-btn {
-      font-size: 16px;
-      padding: 8px 16px;
-      margin-left: 10px;
-      background-color: var(--primary);
-      border: none;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .copy-btn:hover {
-      background-color: var(--primary-hover);
-      transform: translateY(-1px);
-    }
-    #toggle-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: white;
-      border: 2px solid var(--primary);
-      border-radius: 8px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      color: var(--text-dark);
-      transition: all 0.3s ease;
-    }
-    .dark-mode #toggle-btn {
-      background: var(--input-bg-dark);
-      color: var(--text-light);
-    }
-    .reset-btn {
-      background-color: #ff4757 !important;
-      color: white !important;
-      font-size: 16px !important;
-      padding: 8px 16px !important;
-      border: none !important;
-      border-radius: 8px !important;
-      font-weight: bold !important;
-      text-transform: uppercase !important;
-      transition: all 0.2s ease !important;
-    }
-    .reset-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(255,71,87,0.3);
-    }
-    /* --- เริ่มโค้ดปุ่มข้อเสนอแนะ --- */
-    .feedback-float-btn {
-      position: fixed;
-      bottom: 20px;       
-      right: 20px;        
-      background-color: #ff69b4; 
-      color: white;
-      padding: 12px 24px;
-      border-radius: 50px; 
-      text-decoration: none;
-      font-family: 'Kanit', sans-serif;
-      font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2); 
-      transition: all 0.3s ease;
-      z-index: 9999;      
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .feedback-float-btn:hover {
-      background-color: #ff1493; 
-      transform: translateY(-2px); 
-      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-    }
-    /* --- จบโค้ดปุ่มข้อเสนอแนะ --- */
-    /* --- ส่วน Copyright (สไตล์ PUIPUI) --- */
-    .copyright-footer {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        text-align: center;          
-        padding: 20px 40px;         
-        color: #7a869a;            
-        font-size: 12px;           
-        font-weight: 700;          
-        text-transform: uppercase;  
-        letter-spacing: 0.5px;     
-        margin-top: 10px;
-    }
-
-    body.dark-mode .copyright-footer {
-        color: #555;
-    }
-  </style>
-</head>
-<body>
-<button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
-
-<div class="container">
-  <h1>ArmTyKH</h1>
-  
-  <div class="column">
-    <!-- วินเลข -->
-    <div class="section">
-      <h2>
-        วินเลข <span id="digitCount" style="color: red; font-size: 1em;">0 ตัว</span>
-        <button onclick="resetWin()" class="reset-btn">RESET</button>
-      </h2>
-
-      <div class="input-group">
-        <input type="text" 
-               id="win_input" 
-               name="win_input" 
-               placeholder="ป้อนเลข 2-9 หลัก เช่น 123456" 
-               autocomplete="off" 
-               oninput="calculateWin(this.value)"
-               value="{{ win_input }}">
-      </div>
-
-      <div id="win_results">
-        <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
-      </div>
-    </div>
-  </div>
-
-  <div class="column">
-    <!-- นับเลข -->
-    <div class="section">
-      <h2>
-        นับเลข
-        <button onclick="resetCount()" class="reset-btn">RESET</button>
-      </h2>
-
-      <div class="input-group">
-        <input type="text" 
-               id="numbersInput" 
-               name="numbers" 
-               placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" 
-               autocomplete="off"
-               oninput="calculateNumbers(this.value)"
-               value="{{ original_input }}">
-      </div>
-
-      <div id="count_results">
-        <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
-      </div>
-    </div>
-  </div>
-</div>
-<a href="https://forms.gle/vvrowJ8irhR6axdD6" target="_blank" class="feedback-float-btn">
-    <span style="font-size: 20px;">💬</span> ข้อเสนอแนะ
-</a>
-<div class="copyright-footer">
-    © 2025 • POWERED BY PUIPUI
-</div>
-<script>
-// Dark mode toggle
-function toggleDarkMode() {
-  document.body.classList.toggle('dark-mode');
-  updateToggleButton();
-  localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-function updateToggleButton() {
-  const btn = document.getElementById('toggle-btn');
-  btn.textContent = document.body.classList.contains('dark-mode') ? 'โหมดกลางวัน' : 'โหมดกลางคืน';
-}
-
-// Load dark mode preference
-document.addEventListener('DOMContentLoaded', () => {
-  const isDark = localStorage.getItem('darkMode') === 'true';
-  if (isDark) {
-    document.body.classList.add('dark-mode');
-    updateToggleButton();
-  }
-});
-
-// Copy to clipboard function
-function copyToClipboard(elementId, button) {
-  const element = document.getElementById(elementId);
-  const text = element.textContent;
-  
-  navigator.clipboard.writeText(text).then(() => {
-    const originalText = button.textContent;
-    button.textContent = 'คัดลอกแล้ว!';
-    setTimeout(() => {
-      button.textContent = originalText;
-    }, 2000);
-  });
-}
-
-// Calculate win combinations
-function calculateWin(input) {
-  // บันทึกค่าลงใน localStorage
-  localStorage.setItem('winInput', input);
-  
-  // ลบตัวอักษรที่ไม่ใช่ตัวเลข
-  const digits = input.replace(/[^0-9]/g, '');
-  
-  if (digits.length < 2) {
-    document.getElementById('win_results').innerHTML = '';
-    return;
-  }
-
-  // สร้างฟังก์ชันสำหรับหาเลขไม่ซ้ำ
-  function getUniqueDigits(digits) {
-    return [...new Set(digits.split(''))];
-  }
-
-  // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 2 ตัว
-  function getCombinations2(arr, allowDuplicates = false) {
-    const results = [];
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
-        results.push(arr[i] + arr[j]);
-      }
-    }
-    return results;
-  }
-
-  // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 3 ตัว
-  function getCombinations3(arr, allowDuplicates = false) {
-    const results = [];
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
-        for (let k = (allowDuplicates ? j : j + 1); k < arr.length; k++) {
-          results.push(arr[i] + arr[j] + arr[k]);
+    <style>
+        :root {
+            --bg-light: #f0f2f5;
+            --bg-dark: #1e1e2f;
+            --text-light: #ffffff;
+            --text-dark: #111;
+            --primary: #ff9ff3;
+            --primary-hover: #f368e0;
+            --input-bg-dark: #2c2c2c;
+            --input-border-dark: #444;
+            --result-bg-dark: #2a2a3a;
+            --result-border-dark: #444;
+            --border-light: #666;
+            --border-dark: #aaa;
         }
-      }
-    }
-    return results;
-  }
 
-  const uniqueDigits = getUniqueDigits(digits);
-  
-  // คำนวณผลลัพธ์
-  const win2_no_double = getCombinations2(uniqueDigits);
-  const win2_with_double = getCombinations2(uniqueDigits, true);
-  const win3_no_double = getCombinations3(uniqueDigits);
-  const win3_with_double = getCombinations3(uniqueDigits, true);
-  const win3_with_pair = generateWin3(uniqueDigits);
+        body {
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
 
-  // สร้าง HTML สำหรับแสดงผล
-  let resultsHTML = `
+        .dark-mode {
+            background: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: auto;
+            padding: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            width: 100%;
+            font-size: 48px;
+            text-align: center;
+            color: var(--primary);
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .section {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+            height: 100%;
+        }
+
+        .dark-mode .section {
+            background: transparent;
+        }
+
+        h2 {
+            color: var(--text-light);
+            background: var(--primary);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 0 0 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 95%;
+        }
+
+        .input-group {
+            background: transparent;
+            padding: 0;
+            margin: 0 auto 20px auto;
+            width: 90%;
+        }
+
+        .dark-mode .input-group {
+            background: transparent;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: transparent;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            height: 42px;
+        }
+
+        .dark-mode input[type="text"] {
+            background-color: transparent;
+            border-color: var(--input-border-dark);
+            color: var(--text-light);
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: none;
+        }
+
+        .win-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 0 auto 20px auto;
+            width: 90%;
+            border-left: 6px solid;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            min-height: 80px;
+        }
+
+        .win-box.red {
+            border-color: #ff4757;
+        }
+
+        .win-box.green {
+            border-color: #2ed573;
+        }
+
+        .dark-mode .win-box {
+            background: var(--result-bg-dark);
+        }
+
+        .copy-btn {
+            font-size: 16px;
+            padding: 8px 16px;
+            margin-left: 10px;
+            background-color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        #toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode #toggle-btn {
+            background: var(--input-bg-dark);
+            color: var(--text-light);
+        }
+
+        .reset-btn {
+            background-color: #ff4757 !important;
+            color: white !important;
+            font-size: 16px !important;
+            padding: 8px 16px !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-weight: bold !important;
+            text-transform: uppercase !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+        }
+
+        /* --- เริ่มโค้ดปุ่มข้อเสนอแนะ --- */
+        .feedback-float-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff69b4;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Kanit', sans-serif;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feedback-float-btn:hover {
+            background-color: #ff1493;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- จบโค้ดปุ่มข้อเสนอแนะ --- */
+        /* --- ส่วน Copyright (สไตล์ PUIPUI) --- */
+        .copyright-footer {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            text-align: center;
+            padding: 20px 40px;
+            color: #7a869a;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        body.dark-mode .copyright-footer {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
+
+    <div class="container">
+        <h1>APKEYS</h1>
+
+        <div class="column">
+            <!-- วินเลข -->
+            <div class="section">
+                <h2>
+                    วินเลข <span id="digitCount" style="color: red; font-size: 1em;">0 ตัว</span>
+                    <button onclick="resetWin()" class="reset-btn">RESET</button>
+                </h2>
+
+                <div class="input-group">
+                    <input type="text" id="win_input" name="win_input" placeholder="ป้อนเลข 2-9 หลัก เช่น 123456"
+                        autocomplete="off" oninput="calculateWin(this.value)" value="{{ win_input }}">
+                </div>
+
+                <div id="win_results">
+                    <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <!-- นับเลข -->
+            <div class="section">
+                <h2>
+                    นับเลข
+                    <button onclick="resetCount()" class="reset-btn">RESET</button>
+                </h2>
+
+                <div class="input-group">
+                    <input type="text" id="numbersInput" name="numbers"
+                        placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" autocomplete="off"
+                        oninput="calculateNumbers(this.value)" value="{{ original_input }}">
+                </div>
+
+                <div id="count_results">
+                    <!-- ผลลัพธ์จะถูกเพิ่มที่นี่โดย JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="https://forms.gle/vvrowJ8irhR6axdD6" target="_blank" class="feedback-float-btn">
+        <span style="font-size: 20px;">💬</span> ข้อเสนอแนะ
+    </a>
+    <div class="copyright-footer">
+        © 2025 • POWERED BY PUIPUI
+    </div>
+    <script>
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            updateToggleButton();
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        function updateToggleButton() {
+            const btn = document.getElementById('toggle-btn');
+            btn.textContent = document.body.classList.contains('dark-mode') ? 'โหมดกลางวัน' : 'โหมดกลางคืน';
+        }
+
+        // Load dark mode preference
+        document.addEventListener('DOMContentLoaded', () => {
+            const isDark = localStorage.getItem('darkMode') === 'true';
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                updateToggleButton();
+            }
+        });
+
+        // Copy to clipboard function
+        function copyToClipboard(elementId, button) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'คัดลอกแล้ว!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Calculate win combinations
+        function calculateWin(input) {
+            // บันทึกค่าลงใน localStorage
+            localStorage.setItem('winInput', input);
+
+            // ลบตัวอักษรที่ไม่ใช่ตัวเลข
+            const digits = input.replace(/[^0-9]/g, '');
+
+            if (digits.length < 2) {
+                document.getElementById('win_results').innerHTML = '';
+                return;
+            }
+
+            // สร้างฟังก์ชันสำหรับหาเลขไม่ซ้ำ
+            function getUniqueDigits(digits) {
+                return [...new Set(digits.split(''))];
+            }
+
+            // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 2 ตัว
+            function getCombinations2(arr, allowDuplicates = false) {
+                const results = [];
+                for (let i = 0; i < arr.length; i++) {
+                    for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
+                        results.push(arr[i] + arr[j]);
+                    }
+                }
+                return results;
+            }
+
+            // สร้างฟังก์ชันสำหรับหาคอมบิเนชัน 3 ตัว
+            function getCombinations3(arr, allowDuplicates = false) {
+                const results = [];
+                for (let i = 0; i < arr.length; i++) {
+                    for (let j = (allowDuplicates ? i : i + 1); j < arr.length; j++) {
+                        for (let k = (allowDuplicates ? j : j + 1); k < arr.length; k++) {
+                            results.push(arr[i] + arr[j] + arr[k]);
+                        }
+                    }
+                }
+                return results;
+            }
+
+            const uniqueDigits = getUniqueDigits(digits);
+
+            // คำนวณผลลัพธ์
+            const win2_no_double = getCombinations2(uniqueDigits);
+            const win2_with_double = getCombinations2(uniqueDigits, true);
+            const win3_no_double = getCombinations3(uniqueDigits);
+            const win3_with_double = getCombinations3(uniqueDigits, true);
+            const win3_with_pair = generateWin3(uniqueDigits);
+
+            // สร้าง HTML สำหรับแสดงผล
+            let resultsHTML = `
     <div class="win-box red">
       <strong>วิน 2 ตัวไม่รวมเบิ้ล</strong>
       <button class="copy-btn" onclick="copyToClipboard('win2nodup', this)">คัดลอก</button>
@@ -403,35 +426,35 @@ function calculateWin(input) {
     </div>
   `;
 
-  document.getElementById('win_results').innerHTML = resultsHTML;
-}
+            document.getElementById('win_results').innerHTML = resultsHTML;
+        }
 
-function resetWin() {
-  document.getElementById('win_input').value = '';
-  document.getElementById('win_results').innerHTML = '';
-  localStorage.removeItem('winInput');
-}
+        function resetWin() {
+            document.getElementById('win_input').value = '';
+            document.getElementById('win_results').innerHTML = '';
+            localStorage.removeItem('winInput');
+        }
 
-function calculateNumbers(input) {
-  // แยกเฉพาะเลข 2 หลัก
-  const numbers = input.match(/\d{2}/g) || [];
-  
-  // หาเลขที่ซ้ำกัน
-  const numberCounts = {};
-  numbers.forEach(num => {
-    numberCounts[num] = (numberCounts[num] || 0) + 1;
-  });
-  
-  const uniqueNumbers = [...new Set(numbers)];
-  const duplicates = Object.entries(numberCounts)
-    .filter(([_, count]) => count > 1)
-    .map(([num, _]) => num);
+        function calculateNumbers(input) {
+            // แยกเฉพาะเลข 2 หลัก
+            const numbers = input.match(/\d{2}/g) || [];
 
-  // สร้าง HTML สำหรับแสดงผล
-  let resultsHTML = '';
-  
-  if (numbers.length > 0) {
-    resultsHTML += `
+            // หาเลขที่ซ้ำกัน
+            const numberCounts = {};
+            numbers.forEach(num => {
+                numberCounts[num] = (numberCounts[num] || 0) + 1;
+            });
+
+            const uniqueNumbers = [...new Set(numbers)];
+            const duplicates = Object.entries(numberCounts)
+                .filter(([_, count]) => count > 1)
+                .map(([num, _]) => num);
+
+            // สร้าง HTML สำหรับแสดงผล
+            let resultsHTML = '';
+
+            if (numbers.length > 0) {
+                resultsHTML += `
       <div class="win-box red">
         <strong>เลขที่ป้อน</strong>
         <button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button>
@@ -447,78 +470,79 @@ function calculateNumbers(input) {
         <div>${uniqueNumbers.length} ตัว</div>
       </div>`;
 
-    if (duplicates.length > 0) {
-      resultsHTML += `
+                if (duplicates.length > 0) {
+                    resultsHTML += `
         <div class="win-box green">
           <strong>เลขที่ซ้ำกัน</strong>
           <button class="copy-btn" onclick="copyToClipboard('dup-numbers', this)">คัดลอก</button>
           <div id="dup-numbers">${duplicates.join(', ')}</div>
         </div>`;
-    }
-  }
+                }
+            }
 
-  document.getElementById('count_results').innerHTML = resultsHTML;
-}
+            document.getElementById('count_results').innerHTML = resultsHTML;
+        }
 
-function resetCount() {
-  document.getElementById('numbersInput').value = '';
-  document.getElementById('count_results').innerHTML = '';
-}
+        function resetCount() {
+            document.getElementById('numbersInput').value = '';
+            document.getElementById('count_results').innerHTML = '';
+        }
 
-// โหลดค่าวินเลขจาก localStorage เมื่อโหลดหน้า
-document.addEventListener('DOMContentLoaded', () => {
-  const savedWinInput = localStorage.getItem('winInput');
-  if (savedWinInput) {
-    document.getElementById('win_input').value = savedWinInput;
-    calculateWin(savedWinInput);
-  }
-});
+        // โหลดค่าวินเลขจาก localStorage เมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedWinInput = localStorage.getItem('winInput');
+            if (savedWinInput) {
+                document.getElementById('win_input').value = savedWinInput;
+                calculateWin(savedWinInput);
+            }
+        });
 
-// เพิ่มฟังก์ชัน generateWin3
-function generateWin3(digits) {
-  const results = new Set();
+        // เพิ่มฟังก์ชัน generateWin3
+        function generateWin3(digits) {
+            const results = new Set();
 
-  // กรณีเลขเบิ้ล: AAB, ABA, ABB
-  for (let i = 0; i < digits.length; i++) {
-    for (let j = 0; j < digits.length; j++) {
-      if (i === j) continue;
-      const a = digits[i];
-      const b = digits[j];
+            // กรณีเลขเบิ้ล: AAB, ABA, ABB
+            for (let i = 0; i < digits.length; i++) {
+                for (let j = 0; j < digits.length; j++) {
+                    if (i === j) continue;
+                    const a = digits[i];
+                    const b = digits[j];
 
-      const combos = [
-        [a, a, b],
-        [a, b, a],
-        [b, a, a]
-      ];
+                    const combos = [
+                        [a, a, b],
+                        [a, b, a],
+                        [b, a, a]
+                    ];
 
-      combos.forEach(combo => {
-        const sorted = combo.sort().join('');
-        results.add(sorted);
-      });
-    }
-  }
+                    combos.forEach(combo => {
+                        const sorted = combo.sort().join('');
+                        results.add(sorted);
+                    });
+                }
+            }
 
-  // กรณีเลขไม่ซ้ำ: ABC
-  for (let i = 0; i < digits.length; i++) {
-    for (let j = i + 1; j < digits.length; j++) {
-      for (let k = j + 1; k < digits.length; k++) {
-        const combo = [digits[i], digits[j], digits[k]];
-        const sorted = combo.sort().join('');
-        results.add(sorted);
-      }
-    }
-  }
+            // กรณีเลขไม่ซ้ำ: ABC
+            for (let i = 0; i < digits.length; i++) {
+                for (let j = i + 1; j < digits.length; j++) {
+                    for (let k = j + 1; k < digits.length; k++) {
+                        const combo = [digits[i], digits[j], digits[k]];
+                        const sorted = combo.sort().join('');
+                        results.add(sorted);
+                    }
+                }
+            }
 
-  return [...results].sort();
-}
+            return [...results].sort();
+        }
 
-// เพิ่ม event listener สำหรับ input
-document.getElementById('win_input').addEventListener('input', function(e) {
-  // นับจำนวนตัวเลขที่ไม่ซ้ำกัน
-  const input = e.target.value.replace(/\D/g, '');
-  const uniqueDigits = [...new Set(input.split(''))];
-  document.getElementById('digitCount').textContent = `${uniqueDigits.length} ตัว`;
-});
-</script>
+        // เพิ่ม event listener สำหรับ input
+        document.getElementById('win_input').addEventListener('input', function (e) {
+            // นับจำนวนตัวเลขที่ไม่ซ้ำกัน
+            const input = e.target.value.replace(/\D/g, '');
+            const uniqueDigits = [...new Set(input.split(''))];
+            document.getElementById('digitCount').textContent = `${uniqueDigits.length} ตัว`;
+        });
+    </script>
 </body>
+
 </html>
