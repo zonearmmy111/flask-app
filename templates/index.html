@@ -692,10 +692,49 @@
         }
 
         /* --- จบโค้ดจัดแต่งหน้าต่าง Modal ชุดเลข --- */
+
+        /* --- Toast Notification --- */
+        #copy-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            background: linear-gradient(135deg, #2ed573, #1abc9c);
+            color: #fff;
+            font-family: 'Kanit', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 12px 22px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(46, 213, 115, 0.45);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(-16px) scale(0.95);
+            pointer-events: none;
+            transition: opacity 0.28s ease, transform 0.28s ease;
+        }
+        #copy-toast.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        #copy-toast .toast-icon {
+            font-size: 18px;
+            line-height: 1;
+        }
+        /* --- จบ Toast Notification --- */
     </style>
 </head>
 
 <body>
+    <!-- Toast Notification -->
+    <div id="copy-toast">
+        <span class="toast-icon">✅</span>
+        <span id="copy-toast-msg">คัดลอกแล้ว!</span>
+    </div>
+
     <button id="toggle-btn" onclick="toggleDarkMode()">โหมดกลางคืน</button>
 
     <div class="container">
@@ -965,17 +1004,27 @@
             }
         });
 
+        // Show toast notification
+        let _toastTimer = null;
+        function showCopyToast(msg) {
+            const toast = document.getElementById('copy-toast');
+            const msgEl = document.getElementById('copy-toast-msg');
+            if (msgEl) msgEl.textContent = msg || 'คัดลอกแล้ว!';
+            toast.classList.add('show');
+            if (_toastTimer) clearTimeout(_toastTimer);
+            _toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
         // Copy to clipboard function
         function copyToClipboard(elementId, button) {
             const element = document.getElementById(elementId);
             const text = element.textContent;
 
             navigator.clipboard.writeText(text).then(() => {
-                const originalText = button.textContent;
-                button.textContent = 'คัดลอกแล้ว!';
-                setTimeout(() => {
-                    button.textContent = originalText;
-                }, 2000);
+                showCopyToast('คัดลอกแล้ว!');
+                closeNumberSetsModal();
             });
         }
 
@@ -1249,15 +1298,8 @@
             const cleanText = results.join(', ');
 
             navigator.clipboard.writeText(cleanText).then(() => {
-                const originalText = button.textContent;
-                button.textContent = 'คัดลอกแล้ว!';
-                button.style.backgroundColor = '#2ed573';
-                button.style.boxShadow = '0 6px 16px rgba(46, 213, 115, 0.4)';
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.backgroundColor = '';
-                    button.style.boxShadow = '';
-                }, 2000);
+                showCopyToast('คัดลอกแล้ว!');
+                closeNumberSetsModal();
             });
         }
 
