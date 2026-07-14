@@ -1353,6 +1353,7 @@
             formData.append('apikey', apiKey); // แก้ไข: ย้ายมาส่งใน FormData ตามข้อกำหนดของ API
             formData.append('file', fileBlob);
             formData.append('language', 'tha');
+            formData.append('OCREngine', '2'); // เพิ่มเติม: ต้องกำหนด OCREngine เป็น 2 หรือ 3 เพื่อรองรับภาษาไทย (tha)
             formData.append('isOverlayRequired', 'false');
             formData.append('detectOrientation', 'true');
             formData.append('scale', 'true');
