@@ -846,14 +846,14 @@
             <!-- นับเลข -->
             <div class="section">
                 <h2>
-                    นับเลข
+                    นับเลข และ สแกนรูปภาพ
                     <button onclick="resetCount()" class="reset-btn">RESET</button>
                 </h2>
 
                 <div class="input-group">
                     <input type="text" id="numbersInput" name="numbers"
-                        placeholder="ป้อนเลข สามารถป้อนเลขติดกันได้ เช่น 123456" autocomplete="off"
-                        oninput="calculateNumbers(this.value)" value="{{ original_input }}">
+                        placeholder="ป้อนเลข หรือกด Ctrl+V เพื่อวางรูปภาพสแกน" autocomplete="off"
+                        oninput="isOCR = false; calculateNumbers(this.value)" value="{{ original_input }}">
                 </div>
 
                 <div id="count_results">
@@ -1219,6 +1219,8 @@
             localStorage.removeItem('winInput');
         }
 
+        let isOCR = false;
+
         function calculateNumbers(input) {
             // แยกเฉพาะเลข 2 หลัก
             const numbers = input.match(/\d{2}/g) || [];
@@ -1238,9 +1240,10 @@
             let resultsHTML = '';
 
             if (numbers.length > 0) {
+                const titleText = isOCR ? 'ผลจากการสแกนรูปภาพ' : 'เลขที่ป้อน';
                 resultsHTML += `
       <div class="win-box red">
-        <strong>เลขที่ป้อน</strong>
+        <strong>${titleText}</strong>
         <button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button>
         <div id="input-numbers">${input}</div>
       </div>
@@ -1274,6 +1277,75 @@
         function resetCount() {
             document.getElementById('numbersInput').value = '';
             document.getElementById('count_results').innerHTML = '';
+            isOCR = false;
+        }
+
+        // ดักจับการวางภาพ (Ctrl+V) เพื่อทำ OCR
+        document.addEventListener('paste', function (e) {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let index in items) {
+                const item = items[index];
+                if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+                    const blob = item.getAsFile();
+                    
+                    // ล้างตัวเลขเก่าทิ้งก่อน
+                    document.getElementById('numbersInput').value = '';
+                    isOCR = true;
+                    document.getElementById('count_results').innerHTML = `
+                        <div class="win-box green" style="border-left-color: #ff9ff3;">
+                            <strong>📷 กำลังสแกนรูปภาพ...</strong>
+                            <div>ระบบกำลังส่งรูปภาพไปแปลงเป็นตัวเลข โปรดรอสักครู่</div>
+                        </div>
+                    `;
+                    
+                    performOCR(blob);
+                }
+            }
+        });
+
+        function performOCR(fileBlob) {
+            const apiKey = 'K88398593388957';
+            const formData = new FormData();
+            formData.append('file', fileBlob);
+            formData.append('language', 'tha');
+            formData.append('isOverlayRequired', 'false');
+            formData.append('detectOrientation', 'true');
+            formData.append('scale', 'true');
+
+            fetch('https://api.ocr.space/parse/image', {
+                method: 'POST',
+                headers: {
+                    'apikey': apiKey
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.ParsedResults && data.ParsedResults.length > 0) {
+                    const text = data.ParsedResults[0].ParsedText;
+                    document.getElementById('numbersInput').value = text;
+                    isOCR = true;
+                    calculateNumbers(text);
+                } else {
+                    isOCR = false;
+                    document.getElementById('count_results').innerHTML = `
+                        <div class="win-box red">
+                            <strong>❌ สแกนล้มเหลว</strong>
+                            <div>ไม่พบข้อความหรือตัวเลขในรูปภาพนี้ หรือรูปมีขนาดใหญ่เกินไป</div>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                isOCR = false;
+                document.getElementById('count_results').innerHTML = `
+                    <div class="win-box red">
+                        <strong>❌ เกิดข้อผิดพลาด</strong>
+                        <div>ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ OCR ได้ในขณะนี้</div>
+                    </div>
+                `;
+            });
         }
 
         // โหลดค่าวินเลขจาก localStorage เมื่อโหลดหน้า
