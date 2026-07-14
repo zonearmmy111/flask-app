@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: flask-app
+    name: apkeyswins
     env: docker
     plan: free
     region: oregon
