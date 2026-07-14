@@ -1401,7 +1401,7 @@
             formData.append('apikey', apiKey); // แก้ไข: ย้ายมาส่งใน FormData ตามข้อกำหนดของ API
             formData.append('file', fileBlob);
             formData.append('language', 'tha');
-            formData.append('OCREngine', '2'); // เพิ่มเติม: ต้องกำหนด OCREngine เป็น 2 หรือ 3 เพื่อรองรับภาษาไทย (tha)
+            formData.append('OCREngine', '3'); // เปลี่ยนเป็น: OCREngine 3 เพื่อความแม่นยำสูงสุดสำหรับฟอนต์พิเศษและตัวเลขในตาราง
             formData.append('isTable', 'true'); // เพิ่มเติม: รักษาตำแหน่งการขึ้นบรรทัดใหม่และตารางให้ตรงตามรูปภาพ
             formData.append('isOverlayRequired', 'false');
             formData.append('detectOrientation', 'true');
