@@ -726,7 +726,7 @@
         }
         /* --- Announcement Banner --- */
         #migration-banner {
-            display: none;
+            display: none; /* จะถูกตั้งค่าเป็น display: flex ผ่าน JS */
             background: linear-gradient(135deg, #eccc68, #ff7f50);
             color: #2f3542;
             padding: 8px 45px 8px 10px;
@@ -742,13 +742,18 @@
             color: #ffffff;
             background: linear-gradient(135deg, #ff7f50, #ff4757);
         }
-        #migration-banner .marquee-container {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 35s linear infinite;
+        #migration-banner .marquee-content {
+            flex-shrink: 0;
+            display: flex;
+            white-space: nowrap;
+            animation: marquee-scroll 25s linear infinite;
         }
-        #migration-banner .marquee-container:hover {
+        #migration-banner:hover .marquee-content {
             animation-play-state: paused;
+        }
+        #migration-banner .marquee-item {
+            padding-right: 120px; /* ใช้เป็นระยะห่างระหว่างชุดข้อความ */
+            display: inline-block;
         }
         #migration-banner a {
             color: inherit;
@@ -783,7 +788,7 @@
         #migration-banner .close-banner-btn:hover {
             opacity: 0.7;
         }
-        @keyframes marquee {
+        @keyframes marquee-scroll {
             0% { transform: translate3d(0, 0, 0); }
             100% { transform: translate3d(-100%, 0, 0); }
         }
@@ -794,10 +799,13 @@
 <body>
     <!-- Migration Banner -->
     <div id="migration-banner">
-        <div class="marquee-container">
-            <span>📢 ลิงก์เว็บสำรองสำหรับใช้งาน (หากลิงก์หลักนี้ขัดข้อง): <a href="https://apkeyswin.onrender.com/">apkeyswin.onrender.com</a></span>
-            <span style="margin-left: 120px;">📢 ลิงก์เว็บสำรองสำหรับใช้งาน (หากลิงก์หลักนี้ขัดข้อง): <a href="https://apkeyswin.onrender.com/">apkeyswin.onrender.com</a></span>
-            <span style="margin-left: 120px;">📢 ลิงก์เว็บสำรองสำหรับใช้งาน (หากลิงก์หลักนี้ขัดข้อง): <a href="https://apkeyswin.onrender.com/">apkeyswin.onrender.com</a></span>
+        <div class="marquee-content">
+            <span class="marquee-item">📢 ลิงก์เว็บสำรองสำหรับใช้งาน (หากลิงก์หลักนี้ขัดข้อง): <a href="https://apkeyswin.onrender.com/">apkeyswin.onrender.com</a></span>
+            <span class="marquee-item">📢 ลิงก์เว็บสำรองสำหรับใช้งาน (หากลิงก์หลักนี้ขัดข้อง): <a href="https://apkeyswin.onrender.com/">apkeyswin.onrender.com</a></span>
+        </div>
+        <div class="marquee-content" aria-hidden="true">
+            <span class="marquee-item">📢 ลิงก์เว็บสำรองสำหรับใช้งาน (หากลิงก์หลักนี้ขัดข้อง): <a href="https://apkeyswin.onrender.com/">apkeyswin.onrender.com</a></span>
+            <span class="marquee-item">📢 ลิงก์เว็บสำรองสำหรับใช้งาน (หากลิงก์หลักนี้ขัดข้อง): <a href="https://apkeyswin.onrender.com/">apkeyswin.onrender.com</a></span>
         </div>
         <button class="close-banner-btn" onclick="closeMigrationBanner()">&times;</button>
     </div>
@@ -1078,7 +1086,7 @@
             // แสดงป้ายประกาศย้ายเว็บเฉพาะเมื่อเปิดผ่าน Koyeb และยังไม่ได้กดปิด
             if (window.location.hostname.includes('koyeb') && !sessionStorage.getItem('migrationBannerClosed')) {
                 const banner = document.getElementById('migration-banner');
-                if (banner) banner.style.display = 'block';
+                if (banner) banner.style.display = 'flex';
             }
         });
 
