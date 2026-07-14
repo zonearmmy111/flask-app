@@ -724,11 +724,49 @@
             font-size: 18px;
             line-height: 1;
         }
+        /* --- Announcement Banner --- */
+        #migration-banner {
+            display: none;
+            background: linear-gradient(135deg, #eccc68, #ff7f50);
+            color: #2f3542;
+            text-align: center;
+            padding: 12px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 100000;
+            line-height: 1.6;
+        }
+        .dark-mode #migration-banner {
+            color: #ffffff;
+            background: linear-gradient(135deg, #ff7f50, #ff4757);
+        }
+        #migration-banner a {
+            color: inherit;
+            text-decoration: underline;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 4px 12px;
+            border-radius: 8px;
+            margin-left: 8px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        #migration-banner a:hover {
+            background: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+        }
         /* --- จบ Toast Notification --- */
     </style>
 </head>
 
 <body>
+    <!-- Migration Banner -->
+    <div id="migration-banner">
+        📢 แจ้งย้ายที่อยู่เว็บใหม่: เนื่องจากโดเมนหลักของ Koyeb (ลิงก์เดิมนี้) ถูกระบบความปลอดภัยของ Google เข้าใจผิดว่าเป็นเว็บอันตราย (เป็นผลกระทบร่วมจากเว็บอื่นที่ใช้โดเมนเดียวกัน) เพื่อไม่ให้หน้าเว็บขึ้นแจ้งเตือนสีแดงกวนใจ โปรดเข้าใช้งานผ่านลิงก์ใหม่ของเราแทนครับ 👉
+        <a href="https://apkeyswins.onrender.com">apkeyswins.onrender.com</a>
+    </div>
+
     <!-- Toast Notification -->
     <div id="copy-toast">
         <span id="copy-toast-msg">คัดลอกแล้ว!</span>
@@ -1000,6 +1038,12 @@
             if (isDark) {
                 document.body.classList.add('dark-mode');
                 updateToggleButton();
+            }
+            
+            // แสดงป้ายประกาศย้ายเว็บเฉพาะเมื่อเปิดผ่าน Koyeb
+            if (window.location.hostname.includes('koyeb')) {
+                const banner = document.getElementById('migration-banner');
+                if (banner) banner.style.display = 'block';
             }
         });
 
