@@ -1458,7 +1458,8 @@
             const apiKey = 'K88398593388957';
             const formData = new FormData();
             formData.append('apikey', apiKey); // แก้ไข: ย้ายมาส่งใน FormData ตามข้อกำหนดของ API
-            formData.append('file', fileBlob);
+            formData.append('file', fileBlob, 'screenshot.jpg'); // แก้ไข: กำหนดชื่อไฟล์เป็น screenshot.jpg เพื่อระบุนามสกุลไฟล์ให้ API ทราบ
+            formData.append('filetype', 'JPG'); // เพิ่มเติม: ระบุชนิดไฟล์โดยตรงเพื่อความชัวร์ 100%
             formData.append('language', 'auto'); // เปลี่ยนเป็น auto เพื่อตรวจจับภาษาไทย/อังกฤษ/ตัวเลข อัตโนมัติ (ช่วยให้อ่านตัวเลขแม่นยำขึ้นมาก)
             formData.append('OCREngine', '2'); // เปลี่ยนเป็น 2 เพื่อใช้โควตาฟรีที่สูงขึ้น (25,000 ครั้ง/เดือน)
             formData.append('isTable', 'true'); // เพิ่มเติม: รักษาตำแหน่งการขึ้นบรรทัดใหม่และตารางให้ตรงตามรูปภาพ
