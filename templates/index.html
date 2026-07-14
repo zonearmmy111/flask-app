@@ -1320,19 +1320,33 @@
             for (let index in items) {
                 const item = items[index];
                 if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+                    // ป้องกันการทำงานเริ่มต้นของเบราว์เซอร์ เพื่อไม่ให้สลับค่าในช่องป้อนเอง
+                    e.preventDefault();
+                    
                     const blob = item.getAsFile();
                     
-                    // ล้างตัวเลขเก่าทิ้งก่อน
-                    document.getElementById('numbersInput').value = '';
-                    isOCR = true;
+                    // แสดงดีไซน์กล่องประมวลผลพร้อมสปินเนอร์หมุนจริงและข้อความกะพริบ
                     document.getElementById('count_results').innerHTML = `
-                        <div class="win-box green" style="border-left-color: #ff9ff3;">
-                            <strong>📷 กำลังสแกนรูปภาพ...</strong>
-                            <div>ระบบกำลังส่งรูปภาพไปแปลงเป็นตัวเลข โปรดรอสักครู่</div>
+                        <div class="win-box green" style="border-left-color: #ff9ff3; display: flex; align-items: center; min-height: 80px;">
+                            <div class="spinner"></div>
+                            <div>
+                                <strong>📷 กำลังสแกนรูปภาพ...</strong>
+                                <div class="pulse-text" style="font-size: 14px; margin-top: 4px; opacity: 0.8;">ระบบกำลังส่งรูปภาพไปสแกนหาข้อความและตัวเลข โปรดรอสักครู่</div>
+                            </div>
                         </div>
                     `;
                     
-                    compressAndPerformOCR(blob);
+                    // อ่านรูปภาพเป็น Base64 Data URL ก่อนเพื่อใช้สำหรับแสดงรูปด้านบน (เสถียร ไม่พึ่งพา URL.revoke ที่อาจโดนยกเลิกในภายหลัง)
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        ocrImageUrl = event.target.result;
+                        document.getElementById('numbersInput').value = '';
+                        isOCR = true;
+                        compressAndPerformOCR(blob);
+                    };
+                    reader.readAsDataURL(blob);
+                    
+                    break; // หยุดตรวจสอบไอเท็มอื่นทันที
                 }
             }
         });
@@ -1388,6 +1402,7 @@
             formData.append('file', fileBlob);
             formData.append('language', 'tha');
             formData.append('OCREngine', '2'); // เพิ่มเติม: ต้องกำหนด OCREngine เป็น 2 หรือ 3 เพื่อรองรับภาษาไทย (tha)
+            formData.append('isTable', 'true'); // เพิ่มเติม: รักษาตำแหน่งการขึ้นบรรทัดใหม่และตารางให้ตรงตามรูปภาพ
             formData.append('isOverlayRequired', 'false');
             formData.append('detectOrientation', 'true');
             formData.append('scale', 'true');
