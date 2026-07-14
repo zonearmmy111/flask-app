@@ -212,7 +212,12 @@
             font-size: 16px;
             cursor: pointer;
             color: var(--text-dark);
-            transition: all 0.3s ease;
+            transition: top 0.3s ease, all 0.3s ease; /* เพิ่ม transition สำหรับ top */
+            z-index: 100002; /* ให้อยู่เหนือเลเยอร์อื่นๆ เสมอ */
+        }
+
+        body.has-banner #toggle-btn {
+            top: 60px; /* เลื่อนปุ่มลงมาด้านล่างเมื่อแถบแจ้งเตือนปรากฏ */
         }
 
         .dark-mode #toggle-btn {
@@ -775,18 +780,30 @@
             top: 50%;
             transform: translateY(-50%);
             border: none;
-            background: transparent;
+            background: rgba(0, 0, 0, 0.12); /* วงกลมพื้นหลังบางๆ ให้ปุ่มกากบาทเด่นขึ้น */
             color: inherit;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
             cursor: pointer;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             line-height: 1;
-            padding: 0 5px;
             z-index: 100001;
-            transition: opacity 0.2s;
+            transition: all 0.2s ease;
         }
         #migration-banner .close-banner-btn:hover {
-            opacity: 0.7;
+            background: rgba(0, 0, 0, 0.25);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .dark-mode #migration-banner .close-banner-btn {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .dark-mode #migration-banner .close-banner-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
         }
         @keyframes marquee-scroll {
             0% { transform: translate3d(0, 0, 0); }
@@ -1110,7 +1127,10 @@
             // แสดงป้ายประกาศย้ายเว็บเฉพาะเมื่อเปิดผ่าน Koyeb และยังไม่ได้กดปิด
             if (window.location.hostname.includes('koyeb') && !sessionStorage.getItem('migrationBannerClosed')) {
                 const banner = document.getElementById('migration-banner');
-                if (banner) banner.style.display = 'flex';
+                if (banner) {
+                    banner.style.display = 'flex';
+                    document.body.classList.add('has-banner'); // เพิ่มคลาสบอกสถานะมีแถบวิ่ง
+                }
             }
         });
 
@@ -1119,6 +1139,7 @@
             const banner = document.getElementById('migration-banner');
             if (banner) banner.style.display = 'none';
             sessionStorage.setItem('migrationBannerClosed', 'true');
+            document.body.classList.remove('has-banner'); // ลบคลาสออกเมื่อปิดแถบวิ่ง
         }
 
         // Show toast notification
