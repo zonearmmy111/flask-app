@@ -11,7 +11,7 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # ระบุพอร์ตที่เปิด
-EXPOSE 10000
+EXPOSE 8000
 
-# รัน Gunicorn โดยใช้พอร์ต 10000
-CMD ["gunicorn", "arm:app", "--bind", "0.0.0.0:10000"]
+# รัน Gunicorn โดยใช้พอร์ต 8000
+CMD ["gunicorn", "arm:app", "--bind", "0.0.0.0:8000"]
