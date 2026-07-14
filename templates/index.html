@@ -1350,6 +1350,7 @@
         function performOCR(fileBlob) {
             const apiKey = 'K88398593388957';
             const formData = new FormData();
+            formData.append('apikey', apiKey); // แก้ไข: ย้ายมาส่งใน FormData ตามข้อกำหนดของ API
             formData.append('file', fileBlob);
             formData.append('language', 'tha');
             formData.append('isOverlayRequired', 'false');
@@ -1358,10 +1359,7 @@
 
             fetch('https://api.ocr.space/parse/image', {
                 method: 'POST',
-                headers: {
-                    'apikey': apiKey
-                },
-                body: formData
+                body: formData // ส่งเฉพาะ formData
             })
             .then(response => response.json())
             .then(data => {
