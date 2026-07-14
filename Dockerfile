@@ -10,8 +10,5 @@ COPY . .
 # ติดตั้ง Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# ระบุพอร์ตที่เปิด
-EXPOSE 8000
-
-# รัน Gunicorn โดยใช้พอร์ต 8000
-CMD ["gunicorn", "arm:app", "--bind", "0.0.0.0:8000"]
+# รัน Gunicorn โดยอิงตามพอร์ตที่ Cloud แต่ละที่กำหนดให้ (Koyeb = 8000, Render = 10000)
+CMD ["sh", "-c", "gunicorn arm:app --bind 0.0.0.0:${PORT:-8000}"]
