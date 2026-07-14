@@ -1245,7 +1245,28 @@
             let resultsHTML = '';
 
             if (isOCR) {
-                // แสดงเฉพาะรูปภาพที่อัปโหลดและข้อความผลลัพธ์จากการสแกนทั้งหมด โดยไม่มีการนับเลข
+                // คัดแยกกลุ่มตัวเลขประเภทต่างๆ จากข้อความที่สแกนได้
+                const allNumbers = input.match(/\d+/g) || [];
+                const uniqueNumbers = [...new Set(allNumbers)];
+
+                const singleDigits = []; // เลขรูด (1 หลัก)
+                const twoDigits = [];    // เลข 2 ตัว (2 หลัก)
+                const threeDigits = [];  // เลข 3 ตัว (3 หลัก)
+                const winDigits = [];    // เลขวิน (4 หลักขึ้นไป)
+
+                uniqueNumbers.forEach(num => {
+                    if (num.length === 1) {
+                        singleDigits.push(num);
+                    } else if (num.length === 2) {
+                        twoDigits.push(num);
+                    } else if (num.length === 3) {
+                        threeDigits.push(num);
+                    } else if (num.length >= 4) {
+                        winDigits.push(num);
+                    }
+                });
+
+                // แสดงผลเฉพาะรูปภาพที่อัปโหลด ข้อความสแกนดิบ และตัวเลขคัดแยกหมวดหมู่
                 resultsHTML += `
       <div class="win-box red" style="min-height: auto;">
         <strong>รูปภาพที่สแกน</strong>
@@ -1257,6 +1278,26 @@
         <strong>ข้อความและตัวเลขที่สแกนได้</strong>
         <button class="copy-btn" onclick="copyToClipboard('ocr-raw-text', this)">คัดลอก</button>
         <div id="ocr-raw-text" style="white-space: pre-wrap; font-family: monospace; font-size: 16px; margin-top: 10px; line-height: 1.6; word-break: break-all;">${input}</div>
+      </div>
+      <div class="win-box red">
+        <strong>เลขรูด <span style="color: #ff4757;">(เลขเดี่ยว)</span></strong>
+        ${singleDigits.length > 0 ? `<button class="copy-btn" onclick="copyToClipboard('ocr-single-digits', this)">คัดลอก</button>` : ''}
+        <div id="ocr-single-digits">${singleDigits.join(', ') || 'ไม่มี'}</div>
+      </div>
+      <div class="win-box green">
+        <strong>เลข 2 ตัว</strong>
+        ${twoDigits.length > 0 ? `<button class="copy-btn" onclick="copyToClipboard('ocr-two-digits', this)">คัดลอก</button>` : ''}
+        <div id="ocr-two-digits">${twoDigits.join(', ') || 'ไม่มี'}</div>
+      </div>
+      <div class="win-box red">
+        <strong>เลข 3 ตัว</strong>
+        ${threeDigits.length > 0 ? `<button class="copy-btn" onclick="copyToClipboard('ocr-three-digits', this)">คัดลอก</button>` : ''}
+        <div id="ocr-three-digits">${threeDigits.join(', ') || 'ไม่มี'}</div>
+      </div>
+      <div class="win-box green">
+        <strong>เลขวิน <span style="color: #2ed573;">(4 ตัวขึ้นไป)</span></strong>
+        ${winDigits.length > 0 ? `<button class="copy-btn" onclick="copyToClipboard('ocr-win-digits', this)">คัดลอก</button>` : ''}
+        <div id="ocr-win-digits">${winDigits.join(', ') || 'ไม่มี'}</div>
       </div>`;
             } else {
                 // แยกเฉพาะเลข 2 หลัก
