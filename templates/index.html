@@ -1245,8 +1245,17 @@
             let resultsHTML = '';
 
             if (isOCR) {
-                // คัดแยกกลุ่มตัวเลขประเภทต่างๆ จากข้อความที่สแกนได้
-                const allNumbers = input.match(/\d+/g) || [];
+                // คลีนข้อความขยะพวกวันที่และคำลักษณะนามออกก่อนดึงตัวเลข
+                let cleanedInput = input;
+                
+                // 1. ลบรูปแบบวันที่ออก เช่น "14 กรกฎาคม 69" หรือ "14 ก.ค. 69"
+                const monthsRegex = /(?:\d{1,2}\s*)?(?:มกราคม|กุมภาพันธ์|มีนาคม|เมษายน|พฤษภาคม|มิถุนายน|กรกฎาคม|สิงหาคม|กันยายน|ตุลาคม|พฤศจิกายน|ธันวาคม|ม\.ค\.|ก\.พ\.|มี\.ค\.|เม\.ย\.|พ\.ค\.|มิ\.ย\.|ก\.ค\.|ส\.ค\.|ก\.ย\.|ต\.ค\.|พ\.ย\.|ธ\.ค\.)(?:\s*\d{2,4})?/gi;
+                cleanedInput = cleanedInput.replace(monthsRegex, '');
+                
+                // 2. ลบคำระบุประเภท เช่น "2 ตัว", "3 ตัว"
+                cleanedInput = cleanedInput.replace(/\d+\s*ตัว/g, '');
+
+                const allNumbers = cleanedInput.match(/\d+/g) || [];
                 const uniqueNumbers = [...new Set(allNumbers)];
 
                 const singleDigits = []; // เลขรูด (1 หลัก)
@@ -1409,13 +1418,8 @@
         });
 
         // ฟังก์ชันบีบอัดรูปภาพก่อนส่งขึ้น API ป้องกันไฟล์ขนาดใหญ่เกิน 1MB (Free Plan Limit = 1MB)
+        // ฟังก์ชันบีบอัดรูปภาพและปรับขนาดก่อนส่งขึ้น API
         function compressAndPerformOCR(fileBlob) {
-            // หากไฟล์มีขนาดเล็กกว่า 900KB ส่งไปตรงๆ ได้เลย เพื่อความรวดเร็ว
-            if (fileBlob.size < 0.9 * 1024 * 1024) {
-                performOCR(fileBlob);
-                return;
-            }
-
             const reader = new FileReader();
             reader.readAsDataURL(fileBlob);
             reader.onload = function (event) {
@@ -1426,9 +1430,17 @@
                     let width = img.width;
                     let height = img.height;
 
-                    // ปรับขนาดความกว้าง/สูงสูงสุดไม่เกิน 1920px เพื่อประหยัดขนาดแต่ยังคมชัดอ่านง่าย
+                    // ปรับขนาดรูปภาพ:
+                    // 1. ถ้าภาพใหญ่เกินไป ให้จำกัดขนาดสูงสุดไม่เกิน 1920px
+                    // 2. ถ้าภาพเล็กเกินไป (เช่น สูงน้อยกว่า 350px) ให้ขยายภาพขึ้นสูง 350px เพื่อช่วยให้ระบบ OCR อ่านตัวเลขฟอนต์เล็ก/หนา/แคบ ได้แม่นยำขึ้นมาก
                     const maxDim = 1920;
-                    if (width > maxDim || height > maxDim) {
+                    const minHeight = 350;
+
+                    if (height > 0 && height < minHeight) {
+                        const ratio = minHeight / height;
+                        width = Math.round(width * ratio);
+                        height = minHeight;
+                    } else if (width > maxDim || height > maxDim) {
                         if (width > height) {
                             height = Math.round((height * maxDim) / width);
                             width = maxDim;
@@ -1444,10 +1456,10 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    // แปลงเป็น Blob รูปแบบ JPEG คุณภาพ 80% (ลดขนาดลงเหลือไม่กี่ร้อย KB)
+                    // แปลงเป็น Blob รูปแบบ JPEG คุณภาพ 85% (ขนาดไฟล์จะต่ำกว่า 1MB เสมอ และได้คุณภาพตัวหนังสือคมชัด)
                     canvas.toBlob(function (compressedBlob) {
                         performOCR(compressedBlob);
-                    }, 'image/jpeg', 0.8);
+                    }, 'image/jpeg', 0.85);
                 };
             };
         }
