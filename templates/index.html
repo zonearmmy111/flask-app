@@ -1298,10 +1298,54 @@
                         </div>
                     `;
                     
-                    performOCR(blob);
+                    compressAndPerformOCR(blob);
                 }
             }
         });
+
+        // ฟังก์ชันบีบอัดรูปภาพก่อนส่งขึ้น API ป้องกันไฟล์ขนาดใหญ่เกิน 5MB
+        function compressAndPerformOCR(fileBlob) {
+            // หากไฟล์มีขนาดเล็กกว่า 1.5MB ส่งไปตรงๆ ได้เลย เพื่อความรวดเร็ว
+            if (fileBlob.size < 1.5 * 1024 * 1024) {
+                performOCR(fileBlob);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.readAsDataURL(fileBlob);
+            reader.onload = function (event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    // ปรับขนาดความกว้าง/สูงสูงสุดไม่เกิน 1920px เพื่อประหยัดขนาดแต่ยังคมชัดอ่านง่าย
+                    const maxDim = 1920;
+                    if (width > maxDim || height > maxDim) {
+                        if (width > height) {
+                            height = Math.round((height * maxDim) / width);
+                            width = maxDim;
+                        } else {
+                            width = Math.round((width * maxDim) / height);
+                            height = maxDim;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // แปลงเป็น Blob รูปแบบ JPEG คุณภาพ 80% (ลดขนาดลงเหลือไม่กี่ร้อย KB)
+                    canvas.toBlob(function (compressedBlob) {
+                        performOCR(compressedBlob);
+                    }, 'image/jpeg', 0.8);
+                };
+            };
+        }
 
         function performOCR(fileBlob) {
             const apiKey = 'K88398593388957';
@@ -1321,17 +1365,21 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data && data.ParsedResults && data.ParsedResults.length > 0) {
+                if (data && data.IsErroredOnProcessing === false && data.ParsedResults && data.ParsedResults.length > 0) {
                     const text = data.ParsedResults[0].ParsedText;
                     document.getElementById('numbersInput').value = text;
                     isOCR = true;
                     calculateNumbers(text);
                 } else {
                     isOCR = false;
+                    let errorMessage = 'ไม่พบข้อความหรือตัวเลขในรูปภาพนี้ หรือรูปมีขนาดใหญ่เกินไป';
+                    if (data && data.ErrorMessage && data.ErrorMessage.length > 0) {
+                        errorMessage = data.ErrorMessage.join(', ');
+                    }
                     document.getElementById('count_results').innerHTML = `
                         <div class="win-box red">
                             <strong>❌ สแกนล้มเหลว</strong>
-                            <div>ไม่พบข้อความหรือตัวเลขในรูปภาพนี้ หรือรูปมีขนาดใหญ่เกินไป</div>
+                            <div>${errorMessage}</div>
                         </div>
                     `;
                 }
