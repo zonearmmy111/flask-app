@@ -1400,8 +1400,8 @@
             const formData = new FormData();
             formData.append('apikey', apiKey); // แก้ไข: ย้ายมาส่งใน FormData ตามข้อกำหนดของ API
             formData.append('file', fileBlob);
-            formData.append('language', 'tha');
-            formData.append('OCREngine', '3'); // เปลี่ยนเป็น: OCREngine 3 เพื่อความแม่นยำสูงสุดสำหรับฟอนต์พิเศษและตัวเลขในตาราง
+            formData.append('language', 'auto'); // เปลี่ยนเป็น auto เพื่อตรวจจับภาษาไทย/อังกฤษ/ตัวเลข อัตโนมัติ (ช่วยให้อ่านตัวเลขแม่นยำขึ้นมาก)
+            formData.append('OCREngine', '2'); // เปลี่ยนเป็น 2 เพื่อใช้โควตาฟรีที่สูงขึ้น (25,000 ครั้ง/เดือน)
             formData.append('isTable', 'true'); // เพิ่มเติม: รักษาตำแหน่งการขึ้นบรรทัดใหม่และตารางให้ตรงตามรูปภาพ
             formData.append('isOverlayRequired', 'false');
             formData.append('detectOrientation', 'true');
