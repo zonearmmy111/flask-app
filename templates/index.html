@@ -1022,8 +1022,17 @@
             const text = element.textContent;
 
             navigator.clipboard.writeText(text).then(() => {
-                showCopyToast('คัดลอกแล้ว!');
-                closeNumberSetsModal();
+                if (button && button.classList.contains('copy-btn')) {
+                    if (button.textContent === 'คัดลอกแล้ว') return;
+                    const originalText = button.textContent;
+                    button.textContent = 'คัดลอกแล้ว';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 2000);
+                } else {
+                    showCopyToast('คัดลอกแล้ว!');
+                    closeNumberSetsModal();
+                }
             });
         }
 
