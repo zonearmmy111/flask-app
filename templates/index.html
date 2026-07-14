@@ -1245,17 +1245,7 @@
             let resultsHTML = '';
 
             if (isOCR) {
-                // คลีนข้อความขยะพวกวันที่และคำลักษณะนามออกก่อนดึงตัวเลข
-                let cleanedInput = input;
-                
-                // 1. ลบรูปแบบวันที่ออก เช่น "14 กรกฎาคม 69" หรือ "14 ก.ค. 69"
-                const monthsRegex = /(?:\d{1,2}\s*)?(?:มกราคม|กุมภาพันธ์|มีนาคม|เมษายน|พฤษภาคม|มิถุนายน|กรกฎาคม|สิงหาคม|กันยายน|ตุลาคม|พฤศจิกายน|ธันวาคม|ม\.ค\.|ก\.พ\.|มี\.ค\.|เม\.ย\.|พ\.ค\.|มิ\.ย\.|ก\.ค\.|ส\.ค\.|ก\.ย\.|ต\.ค\.|พ\.ย\.|ธ\.ค\.)(?:\s*\d{2,4})?/gi;
-                cleanedInput = cleanedInput.replace(monthsRegex, '');
-                
-                // 2. ลบคำระบุประเภท เช่น "2 ตัว", "3 ตัว"
-                cleanedInput = cleanedInput.replace(/\d+\s*ตัว/g, '');
-
-                const allNumbers = cleanedInput.match(/\d+/g) || [];
+                const allNumbers = input.match(/\d+/g) || [];
                 const uniqueNumbers = [...new Set(allNumbers)];
 
                 const singleDigits = []; // เลขรูด (1 หลัก)
