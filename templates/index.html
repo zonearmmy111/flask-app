@@ -1280,18 +1280,9 @@
         <div id="ocr-raw-text" style="white-space: pre-wrap; font-family: monospace; font-size: 16px; margin-top: 10px; line-height: 1.6; word-break: break-all;">${input}</div>
       </div>`;
 
-                if (singleDigits.length > 0) {
-                    resultsHTML += `
-      <div class="win-box red">
-        <strong>เลขรูด <span style="color: #ff4757;">(เลขเดี่ยว)</span></strong>
-        <button class="copy-btn" onclick="copyToClipboard('ocr-single-digits', this)">คัดลอก</button>
-        <div id="ocr-single-digits">${singleDigits.join(', ')}</div>
-      </div>`;
-                }
-
                 if (twoDigits.length > 0) {
                     resultsHTML += `
-      <div class="win-box green">
+      <div class="win-box red">
         <strong>เลข 2 ตัว</strong>
         <button class="copy-btn" onclick="copyToClipboard('ocr-two-digits', this)">คัดลอก</button>
         <div id="ocr-two-digits">${twoDigits.join(', ')}</div>
@@ -1300,17 +1291,26 @@
 
                 if (threeDigits.length > 0) {
                     resultsHTML += `
-      <div class="win-box red">
+      <div class="win-box green">
         <strong>เลข 3 ตัว</strong>
         <button class="copy-btn" onclick="copyToClipboard('ocr-three-digits', this)">คัดลอก</button>
         <div id="ocr-three-digits">${threeDigits.join(', ')}</div>
       </div>`;
                 }
 
+                if (singleDigits.length > 0) {
+                    resultsHTML += `
+      <div class="win-box red">
+        <strong>เลขรูด</strong>
+        <button class="copy-btn" onclick="copyToClipboard('ocr-single-digits', this)">คัดลอก</button>
+        <div id="ocr-single-digits">${singleDigits.join(', ')}</div>
+      </div>`;
+                }
+
                 if (winDigits.length > 0) {
                     resultsHTML += `
       <div class="win-box green">
-        <strong>เลขวิน <span style="color: #2ed573;">(4 ตัวขึ้นไป)</span></strong>
+        <strong>เลขวิน</strong>
         <button class="copy-btn" onclick="copyToClipboard('ocr-win-digits', this)">คัดลอก</button>
         <div id="ocr-win-digits">${winDigits.join(', ')}</div>
       </div>`;
