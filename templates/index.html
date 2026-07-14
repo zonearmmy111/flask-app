@@ -787,10 +787,29 @@
         }
         #migration-banner .close-banner-btn:hover {
             opacity: 0.7;
+        /* --- Loading Spinner & Pulse --- */
+        .spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(243, 104, 224, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+            flex-shrink: 0;
         }
-        @keyframes marquee-scroll {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .pulse-text {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
         }
         /* --- จบ Toast Notification --- */
     </style>
@@ -1220,54 +1239,69 @@
         }
 
         let isOCR = false;
+        let ocrImageUrl = '';
 
         function calculateNumbers(input) {
-            // แยกเฉพาะเลข 2 หลัก
-            const numbers = input.match(/\d{2}/g) || [];
-
-            // หาเลขที่ซ้ำกัน
-            const numberCounts = {};
-            numbers.forEach(num => {
-                numberCounts[num] = (numberCounts[num] || 0) + 1;
-            });
-
-            const uniqueNumbers = [...new Set(numbers)];
-            const duplicates = Object.entries(numberCounts)
-                .filter(([_, count]) => count > 1)
-                .map(([num, _]) => num);
-
-            // สร้าง HTML สำหรับแสดงผล
             let resultsHTML = '';
 
-            if (numbers.length > 0) {
-                const titleText = isOCR ? 'ผลจากการสแกนรูปภาพ' : 'เลขที่ป้อน';
+            if (isOCR) {
+                // แสดงเฉพาะรูปภาพที่อัปโหลดและข้อความผลลัพธ์จากการสแกนทั้งหมด โดยไม่มีการนับเลข
                 resultsHTML += `
-      <div class="win-box red">
-        <strong>${titleText}</strong>
-        <button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button>
-        <div id="input-numbers">${input}</div>
+      <div class="win-box red" style="min-height: auto;">
+        <strong>รูปภาพที่สแกน</strong>
+        <div style="margin-top: 10px;">
+          <img src="${ocrImageUrl}" style="max-width: 100%; max-height: 300px; border-radius: 10px; object-fit: contain; display: block; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        </div>
       </div>
       <div class="win-box green">
-        <strong>เลขที่แยกได้</strong>
-        <button class="copy-btn" onclick="copyToClipboard('split-numbers', this)">คัดลอก</button>
-        <div id="split-numbers">${uniqueNumbers.join(', ')}</div>
-      </div>
-      <div class="win-box red">
-        <strong>จำนวน <span style="color: #ff4757;">(ไม่รวมเลขซ้ำ)</span></strong>
-        <div>${uniqueNumbers.length} ตัว</div>
-      </div>
-      <div class="win-box green">
-        <strong>จำนวนทั้งหมด <span style="color: #2ed573;">(รวมเลขซ้ำ)</span></strong>
-        <div>${numbers.length} ตัว</div>
+        <strong>ข้อความและตัวเลขที่สแกนได้</strong>
+        <button class="copy-btn" onclick="copyToClipboard('ocr-raw-text', this)">คัดลอก</button>
+        <div id="ocr-raw-text" style="white-space: pre-wrap; font-family: monospace; font-size: 16px; margin-top: 10px; line-height: 1.6; word-break: break-all;">${input}</div>
       </div>`;
+            } else {
+                // แยกเฉพาะเลข 2 หลัก
+                const numbers = input.match(/\d{2}/g) || [];
 
-                if (duplicates.length > 0) {
+                // หาเลขที่ซ้ำกัน
+                const numberCounts = {};
+                numbers.forEach(num => {
+                    numberCounts[num] = (numberCounts[num] || 0) + 1;
+                });
+
+                const uniqueNumbers = [...new Set(numbers)];
+                const duplicates = Object.entries(numberCounts)
+                    .filter(([_, count]) => count > 1)
+                    .map(([num, _]) => num);
+
+                if (numbers.length > 0) {
                     resultsHTML += `
-        <div class="win-box green">
-          <strong>เลขที่ซ้ำกัน</strong>
-          <button class="copy-btn" onclick="copyToClipboard('dup-numbers', this)">คัดลอก</button>
-          <div id="dup-numbers">${duplicates.join(', ')}</div>
-        </div>`;
+          <div class="win-box red">
+            <strong>เลขที่ป้อน</strong>
+            <button class="copy-btn" onclick="copyToClipboard('input-numbers', this)">คัดลอก</button>
+            <div id="input-numbers">${input}</div>
+          </div>
+          <div class="win-box green">
+            <strong>เลขที่แยกได้</strong>
+            <button class="copy-btn" onclick="copyToClipboard('split-numbers', this)">คัดลอก</button>
+            <div id="split-numbers">${uniqueNumbers.join(', ')}</div>
+          </div>
+          <div class="win-box red">
+            <strong>จำนวน <span style="color: #ff4757;">(ไม่รวมเลขซ้ำ)</span></strong>
+            <div>${uniqueNumbers.length} ตัว</div>
+          </div>
+          <div class="win-box green">
+            <strong>จำนวนทั้งหมด <span style="color: #2ed573;">(รวมเลขซ้ำ)</span></strong>
+            <div>${numbers.length} ตัว</div>
+          </div>`;
+
+                    if (duplicates.length > 0) {
+                        resultsHTML += `
+            <div class="win-box green">
+              <strong>เลขที่ซ้ำกัน</strong>
+              <button class="copy-btn" onclick="copyToClipboard('dup-numbers', this)">คัดลอก</button>
+              <div id="dup-numbers">${duplicates.join(', ')}</div>
+            </div>`;
+                    }
                 }
             }
 
