@@ -1272,14 +1272,13 @@
 
             if (isOCR) {
                 const allNumbers = input.match(/\d+/g) || [];
-                const uniqueNumbers = [...new Set(allNumbers)];
 
                 const singleDigits = []; // เลขรูด (1 หลัก)
                 const twoDigits = [];    // เลข 2 ตัว (2 หลัก)
                 const threeDigits = [];  // เลข 3 ตัว (3 หลัก)
                 const winDigits = [];    // เลขวิน (4 หลักขึ้นไป)
 
-                uniqueNumbers.forEach(num => {
+                allNumbers.forEach(num => {
                     if (num.length === 1) {
                         singleDigits.push(num);
                     } else if (num.length === 2) {
